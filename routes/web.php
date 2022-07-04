@@ -13,6 +13,7 @@ use App\Http\Controllers\PenghuniController;
 use App\Http\Controllers\MobilitasController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\MedicalCheckController;
+use App\Http\Middleware\Admin;
 
 
 /*
@@ -38,7 +39,7 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.', 'namespace' => 'Auth'], funct
 });
 
 //admin
-Route::group(['prefix' => 'pegawai', 'as' => 'pegawai.'], function () {
+Route::group(['prefix' => 'pegawai', 'as' => 'pegawai.', 'middleware' => ['admin']], function () {
     // Route::get('kepegawaian/', [AdminController::class, 'kepegawaian'])->name('kepegawaian');
     // Route::get('kepegawaian/redirect', [AdminController::class, 'kepegawaianredirect'])->name('kepegawaian.redirect');
     // Route::get('kepegawaian/success', [AdminController::class, 'success'])->name('kepegawaian.success');
@@ -61,7 +62,7 @@ Route::group(['prefix' => 'pegawai', 'as' => 'pegawai.'], function () {
     Route::post('/ubahpegawai/proses', [PegawaiController::class, 'prosesUbahPegawai'])->name('prosesubah');
 });
 
-Route::group(['prefix' => 'penghuni', 'as' => 'penghuni.'], function () {
+Route::group(['prefix' => 'penghuni', 'as' => 'penghuni.', 'middleware' => ['perawat']], function () {
     Route::get('/', [PenghuniController::class, 'penghuni'])->name('index');
     Route::post('/tambah/proses', [PenghuniController::class, 'prosesTambahPenghuni'])->name('prosestambah');
     Route::get('/tambah', [PenghuniController::class, 'tambahPenghuni'])->name('tambah');
@@ -72,7 +73,7 @@ Route::group(['prefix' => 'penghuni', 'as' => 'penghuni.'], function () {
     Route::post('/data', [PenghuniController::class, 'data_penghuni'])->name('data');
 });
 
-Route::group(['prefix' => 'rekmed', 'as' => 'rekmed.'], function () {
+Route::group(['prefix' => 'rekmed', 'as' => 'rekmed.', 'middleware' => ['perawat']], function () {
     Route::get('/', [RekamMedisController::class, 'penghuni'])->name('index');
     Route::post('/data', [RekamMedisController::class, 'data_penghuni'])->name('data');
     Route::get('/detail/{id}', [RekamMedisController::class, 'detailMedis'])->name('detail');
@@ -86,7 +87,7 @@ Route::group(['prefix' => 'rekmed', 'as' => 'rekmed.'], function () {
     Route::post('simpan_mcu', [RekamMedisController::class, 'simpan_mcu'])->name('simpan');
 });
 
-Route::group(['prefix' => 'mobilitas', 'as' => 'mobilitas.'], function () {
+Route::group(['prefix' => 'mobilitas', 'as' => 'mobilitas.', 'middleware' => ['perawat']], function () {
     Route::get('/', [MobilitasController::class, 'mobilitas'])->name('index');
     Route::post('/data', [MobilitasController::class, 'dataMobilitas'])->name('data');
     Route::post('/detail', [MobilitasController::class, 'detailMobilitas'])->name('detail');
@@ -100,7 +101,7 @@ Route::group(['prefix' => 'mobilitas', 'as' => 'mobilitas.'], function () {
     // Route::get('/', [MobilitasController::class, 'data_mobilitas_keluar'])->name('data_keluar');
 });
 
-Route::group(['prefix' => 'farmasi', 'as' => 'farmasi.'], function () {
+Route::group(['prefix' => 'farmasi', 'as' => 'farmasi.', 'middleware' => ['admin']], function () {
     Route::get('/', [FarmasiController::class, 'index'])->name('index');
     Route::post('/data', [FarmasiController::class, 'data'])->name('data');
     Route::get('/tambah', [FarmasiController::class, 'tambah_obat'])->name('tambah_obat');
