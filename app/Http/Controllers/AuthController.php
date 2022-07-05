@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Accounts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +23,7 @@ class AuthController extends Controller
       'password' => 'required'
     ], $message);
 
-    $login = User::where('username', $username)->get();
+    $login = Accounts::where('username', $username)->get();
     // dd($login);
 
     if ($request->session()->has('auth_wlha')) {

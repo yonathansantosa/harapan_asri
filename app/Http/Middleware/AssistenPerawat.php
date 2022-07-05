@@ -16,6 +16,10 @@ class AsPerawat
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        if (in_array(session()->get('auth_wlha.id_level.0'), [1, 3])) {
+            return $next($request);
+        } else {
+            return redirect('/');
+        }
     }
 }
