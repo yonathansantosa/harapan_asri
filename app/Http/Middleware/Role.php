@@ -18,7 +18,7 @@ class Role
 
     public function handle(Request $request, Closure $next, ...$role)
     {
-        $role_id = [
+        $role2id = [
             'admin' => 1,
             'manajer' => 2,
             'perawat' => 3,
@@ -27,17 +27,26 @@ class Role
             'farmasi' => 6,
         ];
 
+        $id2role = [
+            'admin',
+            'manajer',
+            'perawat',
+            'assisten',
+            'fisioterapi',
+            'farmasi',
+        ];
+
         $permission = [];
 
         foreach ($role as $r) {
-            $permission[] = $role_id[$r];
+            $permission[] = $role2id[$r];
         }
 
         if (session()->get('auth_wlha.username.0')) {
             if (in_array(session()->get('auth_wlha.id_level.0'), $permission)) {
                 return $next($request);
             } else {
-                return redirect(url()->previous());
+                return redirect(url()->previous())->with('message', 'Anda login sebagai <b>' . ucwords($id2role[session()->get('auth_wlha.id_level.0') - 1]) . '</b>, anda tidak memiliki akses ke halaman tersebut');
             }
         } else {
             return redirect('/');
