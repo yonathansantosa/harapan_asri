@@ -17,10 +17,11 @@ class CreatePengembalianAlatTable extends Migration
             // $table->id();
             // $table->string('id')->primary();
             $table->integer('id')->primary();
-            $table->string('id_pegawai',20);
+            $table->string('id_pegawai', 20)->nullable();
             $table->foreign('id_pegawai')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
 
             $table->datetime('waktu');
             // $table->timestamps();

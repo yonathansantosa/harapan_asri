@@ -15,15 +15,17 @@ class CreateMcuNadiTable extends Migration
     {
         Schema::create('mcu_nadi', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('id_pegawai',20);
+            $table->string('id_pegawai', 20)->nullable();
             $table->foreign('id_pegawai')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
 
-            $table->unsignedInteger('id_penghuni');
+            $table->unsignedInteger('id_penghuni')->nullable();
             $table->foreign('id_penghuni')
                 ->references('id')
-                ->on('penghuni');
+                ->on('penghuni')
+                ->onDelete('set null')->onUpdate('cascade');
 
             $table->integer('hasil');
 

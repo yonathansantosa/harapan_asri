@@ -15,28 +15,30 @@ class CreatePemberianObat extends Migration
     {
         Schema::create('mcu_pemberian_obat', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('id_pegawai',20);
+            $table->string('id_pegawai', 20)->nullable();
             $table->foreign('id_pegawai')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
 
-            $table->unsignedInteger('id_penghuni');
+            $table->unsignedInteger('id_penghuni')->nullable();
             $table->foreign('id_penghuni')
                 ->references('id')
-                ->on('penghuni');
+                ->on('penghuni')
+                ->onDelete('set null')->onUpdate('cascade');
 
             $table->unsignedInteger('id_obat');
             $table->foreign('id_obat')
                 ->references('id')
                 ->on('tb_obat');
 
-            $table->float('dosis',5,2);
+            $table->float('dosis', 5, 2);
             $table->datetime('waktu')->nullable();
             $table->string('id_pegawai_cek', 20)->nullable();
             $table->foreign('id_pegawai_cek')
                 ->references('id')
                 ->on('users');
-                
+
             $table->datetime('waktu_cek')->nullable();
             $table->string('efek_samping')->nullable();
             $table->enum('dikonsumsi', ['diminum', 'tidak diminum', 'jatuh', null])->nullable();
