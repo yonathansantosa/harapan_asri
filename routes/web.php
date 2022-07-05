@@ -38,6 +38,11 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.', 'namespace' => 'Auth'], funct
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+// home
+Route::get('home', function () {
+    return view('home.index');
+});
+
 //admin
 Route::group(['prefix' => 'pegawai', 'as' => 'pegawai.', 'middleware' => ['role:admin,manajer']], function () {
     // Route::get('kepegawaian/', [AdminController::class, 'kepegawaian'])->name('kepegawaian');
