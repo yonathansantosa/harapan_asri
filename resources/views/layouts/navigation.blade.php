@@ -134,6 +134,25 @@
         <a href="{{ route('auth.logout') }}"
           class="mt-1 flex items-center space-x-4 rounded-md border-2 border-white bg-white p-2 text-lg font-semibold text-red-400 transition duration-200 hover:border-red-600 hover:text-red-600">
           <svg fill="none" class="mr-4 h-6 w-6"
+        <a href="{{ route('askep.index') }}"
+          class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
+                    @if (in_array('inventaris', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
+                    @else
+                        {{ 'bg-white border-white text-gray-400 hover:text-indigo-600 hover:border-indigo-600' }} @endif
+                    ">
+          <svg class="w-6 h-6 mr-4" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+            </path>
+          </svg>
+          Asuhan Keperawatan
+        </a>
+      </div>
+      <div class="mt-auto flex flex-col space-y-4">
+        <a href="{{ route('auth.logout') }}"
+          class="mt-1 flex items-center space-x-4 p-2 text-lg font-semibold text-red-400 transition duration-200 hover:text-red-600">
+          <svg class="mr-4 h-6 w-6 text-red-400 transition duration-200 hover:text-red-600" fill="none"
             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
@@ -150,7 +169,7 @@
     {{ $slot }}
     <div class="absolute bottom-0 w-full bg-white text-center">
       Dibuat oleh Teknik Informatika Universitas Katolik Soegijapranata (UNIKA Soegijapranata)
-    </div>
+    </div> --}}
   </div>
 
   <script>

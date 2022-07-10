@@ -54,7 +54,7 @@
         <div class="mt-8 flex flex-col">
           <div class="overflow-x-auto">
             <div class="inline-block min-w-full overflow-hidden rounded-lg border-b border-gray-200 align-middle shadow-md">
-              <table id="table-data" class="display cell-border min-w-full">
+              <table id="table-data" class="display cell-border min-w-full" width="100%">
                 <thead class="bg-gray-50">
                   <tr class="text-base uppercase leading-normal text-black">
                     <th class="py-3 px-6 text-left font-semibold">ID</th>
