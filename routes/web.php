@@ -15,7 +15,6 @@ use App\Http\Controllers\PenghuniController;
 use App\Http\Controllers\MobilitasController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\MedicalCheckController;
-use App\Http\Middleware\Admin;
 use App\Http\Controllers\AsuhanKeperawatanController;
 
 
