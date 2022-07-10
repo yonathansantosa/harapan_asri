@@ -30,7 +30,7 @@
       <div class="mb-4 rounded-md border border-green-200 bg-green-100 py-3 px-5 text-sm text-green-900 transition-opacity"
         role="alert" id="message">
         <ul>
-          <li>{{ Session::get('message') }} <span class="float-right"><a
+          <li>{!! Session::get('message') !!} <span class="float-right"><a
                 id="dismiss-message" href="#">x</a></span></li>
         </ul>
       </div>

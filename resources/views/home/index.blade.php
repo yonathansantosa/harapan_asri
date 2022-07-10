@@ -32,8 +32,8 @@
 </head>
 
 <body class="font-sans antialiased">
-  <div class="mx-auto flex h-screen w-4/6 flex-col">
-    <div class="mt-12 flex h-1/2 min-h-min w-full flex-col items-center justify-center bg-indigo-400 text-4xl text-white">
+  <div class="mx-auto my-12 flex h-screen w-4/6 flex-col">
+    <div class="flex h-2/5 min-h-min w-full flex-col items-center justify-center bg-indigo-400 text-4xl text-white">
       <h1 class="text-center font-bold">Selamat datang di sistem rekam medis</h1>
       <h1 class="text-center font-bold">Wisma Lansia Harapan Asri</h1>
     </div>
