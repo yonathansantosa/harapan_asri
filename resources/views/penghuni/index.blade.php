@@ -16,6 +16,12 @@
   <div class="flex h-screen w-full" x-data="{ modalAddPenghuni: false, modalDetailUser: false, modalEditPenghuni: false, modalGantiPassword: false }" :class="{ 'overflow-y-hidden': modalAddPenghuni || modalDetailUser || modalEditPenghuni || modalGantiPassword }">
     <div class="flex-auto bg-indigo-50 py-6 px-10">
       <div>
+        {{-- Message Banner --}}
+        @if (Session::has('message'))
+          <div class="my-4 rounded-md border border-red-200 bg-green-100 py-3 px-5 text-sm text-green-900" role="alert" id="message">
+            {!! Session::get('message') !!}<span class="float-right"><a id="dismiss-message" href="#">x</a></span>
+          </div>
+        @endif
         @if (Session::has('message_success'))
           @for ($i = 0; $i < count(Session::get('message_success')); $i++)
             <div class="mb-4 rounded-md border border-red-200 bg-green-100 py-3 px-5 text-sm text-green-900" role="alert">
@@ -378,6 +384,11 @@
         reader.readAsDataURL(file);
       }
     }
+  </script>
+  <script>
+    $("#dismiss-message").click(function() {
+      $("#message").addClass('hidden duration-100');
+    });
   </script>
 
 </x-app-layout>

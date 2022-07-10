@@ -15,20 +15,22 @@ class CreateMcuCairan extends Migration
     {
         Schema::create('mcu_cairan', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('id_pegawai', 20);
+            $table->string('id_pegawai', 20)->nullable();
             $table->foreign('id_pegawai')
                 ->references('id')
-                ->on('users');
-            $table->unsignedInteger('id_penghuni');
+                ->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
+
+            $table->unsignedInteger('id_penghuni')->nullable();
             $table->foreign('id_penghuni')
                 ->references('id')
-                ->on('penghuni');
+                ->on('penghuni')
+                ->onDelete('set null')->onUpdate('cascade');
             $table->string('pagi', 20)->nullable();
             $table->string('siang', 20)->nullable();
             $table->string('sore', 20)->nullable();
             $table->timestamp('waktu')->useCurrent();
             $table->integer('deleted')->unsigned()->nullable()->default(0);
-
         });
     }
 

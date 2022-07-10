@@ -15,14 +15,14 @@ class CreateHistoryObatsTable extends Migration
     {
         Schema::create('tb_history_obat', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('id_obat');
+            $table->unsignedInteger('id_obat')->nullable();
             $table->string('keterangan')->default(' ');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->integer('stokobat')->default(0);
             $table->integer('deleted')->default(0);
 
-            $table->foreign('id_obat')->references('id')->on('tb_obat')->onUpdate('cascade')->onDelete('no action');
+            $table->foreign('id_obat')->references('id')->on('tb_obat')->onDelete('set null')->onUpdate('cascade');
         });
     }
 

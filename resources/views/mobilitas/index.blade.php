@@ -23,6 +23,12 @@
         <!-- START: Data Table -->
         <div class="mt-8 flex flex-col">
           <div>
+            {{-- Message Banner --}}
+            @if (Session::has('message'))
+              <div class="my-4 rounded-md border border-red-200 bg-green-100 py-3 px-5 text-sm text-green-900" role="alert" id="message">
+                {!! Session::get('message') !!}<span class="float-right"><a id="dismiss-message" href="#">x</a></span>
+              </div>
+            @endif
             @if (Session::has('message_success'))
               @for ($i = 0; $i < count(Session::get('message_success')); $i++)
                 <div class="mb-4 rounded-md border border-red-200 bg-green-100 py-3 px-5 text-sm text-green-900"
@@ -207,6 +213,11 @@
           }
         });
       });
+    });
+  </script>
+  <script>
+    $("#dismiss-message").click(function() {
+      $("#message").addClass('hidden duration-100');
     });
   </script>
 </x-app-layout>
