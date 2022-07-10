@@ -15,6 +15,7 @@ use App\Http\Controllers\PenghuniController;
 use App\Http\Controllers\MobilitasController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\MedicalCheckController;
+use App\Http\Middleware\Admin;
 use App\Http\Controllers\AsuhanKeperawatanController;
 
 
@@ -45,10 +46,10 @@ Route::get('home', function () {
     return view('home.index');
 });
 
+
 Route::group(['prefix' => 'accounts', 'as' => 'accounts.', 'middleware' => ['role:admin,manajer']], function () {
     Route::get('/', [AccountsController::class, 'index'])->name('index');
 });
-
 //admin
 Route::group(['prefix' => 'pegawai', 'as' => 'pegawai.', 'middleware' => ['role:admin,manajer']], function () {
     // Route::get('kepegawaian/', [AdminController::class, 'kepegawaian'])->name('kepegawaian');

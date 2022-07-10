@@ -1,4 +1,5 @@
 @props(['viewbox' => '0 0 24 24', 'active' => false, 'svgd' => ''])
+
 <a {{ $attributes }} class="@if ($active) {{ 'bg-indigo-600 text-white border-indigo-600' }}
         @else
             {{ 'bg-white border-white text-gray-600 hover:text-indigo-600 hover:border-indigo-600' }} @endif mt-1 flex items-center space-x-4 rounded-md border-2 p-2 text-lg font-semibold transition duration-200">
