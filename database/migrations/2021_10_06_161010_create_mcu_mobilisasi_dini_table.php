@@ -16,21 +16,22 @@ class CreateMcuMobilisasiDiniTable extends Migration
         Schema::create('mcu_mobilisasi_dini', function (Blueprint $table) {
             // $table->id();
             $table->increments('id');
-            $table->string('id_pegawai',20);
+            $table->string('id_pegawai', 20)->nullable();
             $table->foreign('id_pegawai')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
 
-            $table->unsignedInteger('id_penghuni');
+            $table->unsignedInteger('id_penghuni')->nullable();
             $table->foreign('id_penghuni')
                 ->references('id')
-                ->on('penghuni');
+                ->on('penghuni')
+                ->onDelete('set null')->onUpdate('cascade');
 
             $table->text('hasil');
             $table->datetime('waktu');
             // $table->timestamps();
             $table->integer('deleted')->unsigned()->nullable()->default(0);
-
         });
     }
 

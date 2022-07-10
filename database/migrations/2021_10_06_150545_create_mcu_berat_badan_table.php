@@ -16,19 +16,21 @@ class CreateMcuBeratBadanTable extends Migration
         Schema::create('mcu_berat_badan', function (Blueprint $table) {
             // $table->id();
             $table->increments('id');
-            $table->string('id_pegawai',20);
+            $table->string('id_pegawai', 20)->nullable();
             $table->foreign('id_pegawai')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
 
-            $table->unsignedInteger('id_penghuni');
+            $table->unsignedInteger('id_penghuni')->nullable();
             $table->foreign('id_penghuni')
                 ->references('id')
-                ->on('penghuni');
+                ->on('penghuni')
+                ->onDelete('set null')->onUpdate('cascade');
 
-            $table->float('hasil',5,2);
+            $table->float('hasil', 5, 2);
             $table->datetime('waktu');
-            
+
             $table->integer('deleted')->unsigned()->nullable()->default(0);
 
             // $table->timestamps();

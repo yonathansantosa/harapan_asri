@@ -20,8 +20,8 @@
 {{-- START: Button Menu --}}
 <div class="fixed">
   <a href="#" @click="sidebarOpen = ! sidebarOpen"
-    class="mt-2 ml-2 w-12 h-12 items-center rounded-md space-x-4 text-white font-semibold bg-indigo-400 text-lg hover:bg-indigo-600 hover:text-indigo-600 transition duration-200 mb-auto" :class="sidebarOpen ? 'hidden' : 'flex'">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list w-6 h-6 m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
+    class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-indigo-400 text-lg font-semibold text-white transition duration-200 hover:bg-indigo-600 hover:text-indigo-600" :class="sidebarOpen ? 'hidden' : 'flex'">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list m-auto h-6 w-6 text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
       <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
     </svg>
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? '' : 'hidden'">
@@ -33,7 +33,7 @@
 <?php $routes_name = explode('.', Route::currentRouteName()); ?>
 {{-- START: Side Navbar --}}
 <template x-if="sidebarOpen">
-  <div class="w-full sm:w-auto z-50 flex bg-white h-screen fixed"
+  <div class="fixed z-50 flex h-screen w-full bg-white sm:w-auto"
     x-transition:enter="transition origin-left duration-200"
     x-transition:enter-start="opacity-0 transform"
     x-transition:enter-end="opacity-100 transform"
@@ -41,13 +41,13 @@
     x-transition:leave-start="opacity-100 transform"
     x-transition:leave-end="opacity-0 transform"
     @click.away="sidebarOpen = ! sidebarOpen">
-    <div class="flex h-full w-full sm:w-auto justify-between flex-shrink-0 py-6 px-4 sticky-top-0 overflow-y-auto transition duration-200 flex-col" id="vertical-navbar">
+    <div class="sticky-top-0 flex h-full w-full flex-shrink-0 flex-col justify-between overflow-y-auto py-6 px-4 transition duration-200 sm:w-auto" id="vertical-navbar">
       <div class="flex flex-col space-y-1">
-        <div class="flex items-center justify-between border-b-2 pb-4">
-          <h1 class="mt-2 text-lg font-bold uppercase text-center text-indigo-500 tracking-wide">WISMA LANSIA<br>HARAPAN ASRI</h1>
+        <div class="flex items-center justify-between">
+          <h1 class="mt-2 text-center text-lg font-bold uppercase tracking-wide text-indigo-500">WISMA LANSIA<br>HARAPAN ASRI</h1>
           <a href="#" @click="sidebarOpen = ! sidebarOpen"
-            class="mt-2 ml-2 w-12 h-12 items-center rounded-md space-x-4 text-white font-semibold text-lg bg-red-400 hover:bg-red-600 hover:text-indigo-600 transition duration-200 mb-auto" :class="sidebarOpen ? 'flex' : 'hidden'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list w-6 h-6 m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
+            class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-red-400 text-lg font-semibold text-white transition duration-200 hover:bg-red-600 hover:text-indigo-600" :class="sidebarOpen ? 'flex' : 'hidden'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list m-auto h-6 w-6 text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
               <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
             </svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? '' : 'hidden'">
@@ -55,90 +55,96 @@
             </svg>
           </a>
         </div>
-        <a href="{{ route('pegawai.index') }}"
-          class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
-                    @if (in_array('pegawai', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
-                    @else
-                        {{ 'bg-white border-white text-gray-400 hover:text-indigo-600 hover:border-indigo-600' }} @endif
-                    ">
-          <svg class="w-6 h-6 mr-4"
-            fill="none"
-            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-            </path>
-          </svg>
-          Kepegawaian
-        </a>
-        <a href="{{ route('penghuni.index') }}"
-          class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
-                    @if (in_array('penghuni', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
-                    @else
-                        {{ 'bg-white border-white text-gray-400 hover:text-indigo-600 hover:border-indigo-600' }} @endif
-                    ">
-          <svg class="w-6 h-6 mr-4" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
-            </path>
-          </svg>
-          Penghuni
-        </a>
-        <a href="{{ route('rekmed.index') }}"
-          class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
-                    @if (in_array('rekmed', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
-                    @else
-                        {{ 'bg-white border-white text-gray-400 hover:text-indigo-600 hover:border-indigo-600' }} @endif
-                    ">
-          <svg class="w-6 h-6 mr-4" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
-          </svg>
-          Rekam Medis
-        </a>
-        <a href="{{ route('farmasi.index') }}"
-          class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
-                    @if (in_array('farmasi', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
-                    @else
-                        {{ 'bg-white border-white text-gray-400 hover:text-indigo-600 hover:border-indigo-600' }} @endif
-                    ">
-          <svg class="w-6 h-6 mr-4" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
-            </path>
-          </svg>
-          Farmasi
-        </a>
-        <a href="#"
-          class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
-                    @if (in_array('fisioterapi', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
-                    @else
-                        {{ 'bg-white border-white text-gray-400 hover:text-indigo-600 hover:border-indigo-600' }} @endif
-                    ">
-          <svg class="w-6 h-6 mr-4" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-          </svg>
-          Fisioterapi
-        </a>
-        <a href="{{ route('mobilitas.index') }}"
-          class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
-                    @if (in_array('mobilitas', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
-                    @else
-                        {{ 'bg-white border-white text-gray-400 hover:text-indigo-600 hover:border-indigo-600' }} @endif
-                    ">
-          <svg class="w-6 h-6 mr-4" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-            </path>
-          </svg>
-          Mobilitas
-        </a>
-        <a href="#"
+        <div class="border-b-2 pb-4 text-lg font-semibold">Sebagai {{ ucwords(session()->get('auth_wlha.username.0')) }}</div>
+        <div>
+          {{-- Accounts --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2]))
+            @php
+              $active = in_array('accounts', $routes_name) ? true : false;
+              $svgd = 'M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z';
+            @endphp
+            <x-navitem href="{{ route('accounts.index') }}" :active=$active :svgd=$svgd :viewbox='0 0 448 512'>
+              Accounts
+            </x-navitem>
+          @endif
+          {{-- Kepegawaian --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2]))
+            @php
+              $active = in_array('pegawai', $routes_name) ? true : false;
+              $svgd = 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4';
+            @endphp
+            <x-navitem href="{{ route('pegawai.index') }}" :active=$active :svgd=$svgd>
+              Kepegawaian
+            </x-navitem>
+          @endif
+          {{-- Penghuni --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2, 3]))
+            @php
+              $active = in_array('penghuni', $routes_name) ? true : false;
+              $svgd = 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z';
+            @endphp
+            <x-navitem href="{{ route('penghuni.index') }}" :active=$active :svgd=$svgd>
+              Penghuni
+            </x-navitem>
+          @endif
+          {{-- Rekam Medis --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2, 3, 4]))
+            @php
+              $active = in_array('rekmed', $routes_name) ? true : false;
+              $svgd = 'M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z';
+            @endphp
+            <x-navitem href="{{ route('rekmed.index') }}" :active=$active :svgd=$svgd>
+              Rekam Medis
+            </x-navitem>
+          @endif
+          {{-- Farmasi --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2, 6]))
+            @php
+              $active = in_array('farmasi', $routes_name) ? true : false;
+              $svgd = 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10';
+            @endphp
+            <x-navitem href="{{ route('farmasi.index') }}" :active=$active :svgd=$svgd>
+              Farmasi
+            </x-navitem>
+          @endif
+          {{-- Fisioterapi --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2]))
+            @php
+              $active = in_array('fisioterapi', $routes_name) ? true : false;
+              $svgd = 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4';
+            @endphp
+            <x-navitem href="#" :active=$active :svgd=$svgd>
+              Fisioterapi
+            </x-navitem>
+          @endif
+          {{-- Mobilitas --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2, 3, 4]))
+            @php
+              $active = in_array('mobilitas', $routes_name) ? true : false;
+              $svgd = 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z';
+            @endphp
+            <x-navitem href="{{ route('mobilitas.index') }}" :active=$active :svgd=$svgd>
+              Mobilitas
+            </x-navitem>
+          @endif
+          {{-- Inventaris --}}
+          @if (in_array(session()->get('auth_wlha.id_level.0'), [1, 2]))
+            @php
+              $active = in_array('inventaris', $routes_name) ? true : false;
+              $svgd = 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z';
+            @endphp
+            <x-navitem href="#" :active=$active :svgd=$svgd>
+              Inventaris
+            </x-navitem>
+          @endif
+        </div>
+      </div>
+      {{-- LOGOUT --}}
+      <div class="mt-auto flex flex-col space-y-4">
+        <a href="{{ route('auth.logout') }}"
+          class="mt-1 flex items-center space-x-4 rounded-md border-2 border-white bg-white p-2 text-lg font-semibold text-red-400 transition duration-200 hover:border-red-600 hover:text-red-600">
+          <svg fill="none" class="mr-4 h-6 w-6"
+        <a href="{{ route('askep.index') }}"
           class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
                     @if (in_array('inventaris', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
                     @else
@@ -150,13 +156,13 @@
               d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
             </path>
           </svg>
-          Inventarisasi
+          Asuhan Keperawatan
         </a>
       </div>
-      <div class="flex flex-col space-y-4 mt-auto">
+      <div class="mt-auto flex flex-col space-y-4">
         <a href="{{ route('auth.logout') }}"
-          class="flex mt-1 p-2 items-center space-x-4 text-red-400 font-semibold text-lg hover:text-red-600 transition duration-200">
-          <svg class="w-6 h-6 mr-4 text-red-400 hover:text-red-600 transition duration-200" fill="none"
+          class="mt-1 flex items-center space-x-4 p-2 text-lg font-semibold text-red-400 transition duration-200 hover:text-red-600">
+          <svg class="mr-4 h-6 w-6 text-red-400 transition duration-200 hover:text-red-600" fill="none"
             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
@@ -166,15 +172,14 @@
         </a>
       </div>
     </div>
-  </div>
 </template>
 <!-- END: Side Navbar -->
-<div class="flex h-full mb-96">
-  <div class="h-full bg-indigo-50 overflow-y-auto" :class="sidebarOpen ? 'w-screen' : 'w-full'" id='content'>
+<div class="mb-96 flex h-full">
+  <div class="h-full overflow-y-auto bg-indigo-50" :class="sidebarOpen ? 'w-screen' : 'w-full'" id='content'>
     {{ $slot }}
-    <div class="absolute w-full bottom-0 bg-white text-center">
+    <div class="absolute bottom-0 w-full bg-white text-center">
       Dibuat oleh Teknik Informatika Universitas Katolik Soegijapranata (UNIKA Soegijapranata)
-    </div>
+    </div> --}}
   </div>
 
   <script>

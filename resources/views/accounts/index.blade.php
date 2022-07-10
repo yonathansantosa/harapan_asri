@@ -1,22 +1,4 @@
 <x-app-layout>
-
-  {{-- ADMIN DASHBOARD <br>
-    YANG LOGIN SIAPA ? <br>
-    -------------------------------------------------------------------------------------------------<br>
-    {{ Session::get('auth_wlha')->pluck('id')[0] }} <br>
-    -------------------------------------------------------------------------------------------------<br>
-
-    <button type="button"><a  href="{{route('pegawai.tambah')}}">Tambah Pegawai</a></button>
-    <button type="button"><a  href="{{route('pegawai.ubahpassword')}}">Ubah Password</a></button>
-    <button type="button"><a  href="{{route('auth.logout')}}">Logout</a></button>
-    <div>
-        @if (Session::has('message_success'))
-            @for ($i = 0; $i < count(Session::get('message_success')); $i++)
-            {{ Session::get('message_success')[$i] }}
-            @endfor
-        @endif
-    </div> --}}
-
   <div class="flex h-full w-full"
     x-data="{ modalAddUser: false, modalDetailUser: false, modalEditUser: false, modalGantiPassword: false }"
     :class="{ 'overflow-y-hidden': modalAddUser || modalDetailUser || modalEditUser || modalGantiPassword }">
@@ -40,7 +22,7 @@
       <!-- START: List User -->
       <div class="block rounded-md bg-white p-8">
         <!-- START: Heading -->
-        <h2 class="text-black-400 mb-3 text-3xl font-semibold leading-tight">Daftar Pegawai</h2><br>
+        <h2 class="text-black-400 mb-3 text-3xl font-semibold leading-tight">Daftar Account</h2><br>
         <div class="flex">
           <a href="{{ route('pegawai.tambah') }}">
             <button
@@ -65,29 +47,28 @@
                 <thead class="bg-gray-50">
                   <tr class="text-base uppercase leading-normal text-black">
                     <th class="py-3 px-6 text-left font-semibold">ID</th>
-                    <th class="py-3 px-6 text-left font-semibold">Nama</th>
+                    <th class="py-3 px-6 text-left font-semibold">Username</th>
                     <th class="py-3 px-6 text-left font-semibold">Status</th>
                     <th class="py-3 px-6 text-left font-semibold">Role</th>
                     <th class="py-3 px-6 text-left font-semibold">Action</th>
                   </tr>
                 </thead>
                 <tbody class="bg-white text-base font-light text-gray-700">
-                  <?php $i = 0; ?>
-                  @foreach ($user as $u)
+                  @foreach ($accounts as $key => $acc)
                     <tr class="border-b border-gray-200 hover:bg-gray-100">
                       <td class="whitespace-nowrap py-3 px-6 text-left">
                         <div class="flex items-center">
-                          <span class="font-medium">{{ $u->id }}</span>
+                          <span class="font-medium">{{ $key }}</span>
                         </div>
                       </td>
                       <td class="whitespace-nowrap py-3 px-6 text-left">
                         <div class="flex items-center">
-                          <span class="font-semibold">{{ $u->nama }}</span>
+                          <span class="font-semibold">{{ $acc->username }}</span>
                         </div>
                       </td>
                       <td class="whitespace-nowrap py-3 px-6 text-left">
                         <div class="flex items-center">
-                          @if ($u->status == 1)
+                          @if ($acc->status == 1)
                             <span
                               class="rounded-full bg-green-200 py-1 px-3 text-sm font-semibold text-green-700">Active</span>
                           @else
@@ -98,28 +79,14 @@
                       </td>
                       <td class="whitespace-nowrap py-3 px-6 text-left">
                         <div class="flex items-center">
-                          <span class="font-medium">{{ $u->role }}</span>
+                          <span class="font-medium">{{ $acc->id_level }}</span>
                         </div>
                       </td>
                       <td class="flex py-3 px-6">
                         <div class="flex items-center space-x-4">
-                          <button
-                            class="text-lg font-medium text-indigo-400 transition duration-200 hover:text-indigo-900"
-                            @click="modalDetailUser = true" id="details"
-                            data-id="{{ $u->id }}">Details</button>
-                          <a href="{{ route('pegawai.ubah', ['id' => $u->id]) }}"
-                            class="text-lg font-medium text-indigo-400 transition duration-200 hover:text-indigo-900" id="edit">
-                            Edit
-                          </a>
-                          <a href="{{ route('pegawai.ubahpassword', ['id' => $u->id]) }}"
-                            class="text-lg font-medium text-indigo-400 transition duration-200 hover:text-indigo-900"
-                            id="ubahPassword">
-                            Ubah Password
-                          </a>
                         </div>
                       </td>
                     </tr>
-                    <?php $i += 1; ?>
                   @endforeach
                 </tbody>
               </table>
@@ -219,83 +186,8 @@
           exportOptions: {
             columns: [0, 1, 2]
           }
-
         }]
       });
-
-
-      $(document).on('click', '#details', function() {
-        id = $(this).data('id');
-        $.ajax({
-          url: "{{ route('pegawai.detail') }}",
-          method: "POST",
-          data: {
-            '_token': '{{ csrf_token() }}',
-            id: id
-          },
-          success: function(data) {
-            document.getElementById("detailNama").innerHTML = data["0"]["nama"];
-            document.getElementById("detailUsername").innerHTML = data["0"][
-              "username"
-            ];
-            document.getElementById("detailJenisKelamin").innerHTML = data["0"][
-              "gender"
-            ];
-            document.getElementById("detailRoleUser").innerHTML = data["0"]["role"];
-            document.getElementById("detailAlamat").innerHTML = data["0"]["alamat"];
-            document.getElementById("detailNoTelp").innerHTML = data["0"]["notelp"];
-            document.getElementById("detailNIK").innerHTML = data["0"]["NIK"];
-            document.getElementById("detailTglLahir").innerHTML = data["0"][
-              "tgl_lahir"
-            ];
-            document.getElementById("detailAgama").innerHTML = data["0"]["agama"];
-            if (data["0"]["foto"] != null) {
-              $("#detailFoto").attr("src", "/photos/" + data["0"]["foto"]);
-            } else {
-              $("#detailFoto").attr("src", 'https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png');
-            }
-            console.log(data["0"]["nama"]);
-            if (data["0"]["status"] == 0) {
-              $("#detailActive").hide();
-              $("#detailInActive").show();
-            } else {
-              $("#detailActive").show();
-              $("#detailInActive").hide();
-            }
-          },
-
-          error: function(data) {
-            console.log(data);
-          }
-        });
-      });
-    });
-
-
-    function previewFile(input, change) {
-      if (change == "edit") {
-        // var file = $("input[type=file]").get(0).files[0];
-        var file = $("#editFoto").get(0).files[0];
-      } else if (change == "tambah") {
-        var file = $("#tambahFoto").get(0).files[0];
-      }
-      if (file) {
-        var reader = new FileReader();
-        reader.onload = function() {
-          if (change == "edit") {
-            $('#editPreviewImg').attr("src", reader.result);
-          } else if (change == "tambah") {
-            $('#tambahPreviewImg').attr("src", reader.result);
-          }
-        }
-        reader.readAsDataURL(file);
-      }
-    }
+    })
   </script>
-  <script>
-    $("#dismiss-message").click(function() {
-      $("#message").addClass('hidden duration-100');
-    });
-  </script>
-
 </x-app-layout>
