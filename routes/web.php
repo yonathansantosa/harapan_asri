@@ -42,7 +42,7 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.', 'namespace' => 'Auth'], funct
 
 // home
 Route::get('home', function () {
-    return view('home.index');
+    return view('home.index', $data = ['routes_name' => ['']]);
 });
 
 
@@ -84,13 +84,12 @@ Route::group(['prefix' => 'penghuni', 'as' => 'penghuni.', 'middleware' => ['rol
     Route::post('/data', [PenghuniController::class, 'data_penghuni'])->name('data');
 });
 
+Route::group(['prefix' => 'askep', 'as' => 'askep.'], function () {
+    Route::get('/', [AsuhanKeperawatanController::class, 'penghuni'])->name('index');
+    Route::post('/data', [AsuhanKeperawatanController::class, 'data_penghuni'])->name('data');
+});
 
 Route::group(['prefix' => 'rekmed', 'as' => 'rekmed.', 'middleware' => ['role:admin,manajer,perawat,assisten']], function () {
-
-    Route::group(['prefix' => 'askep', 'as' => 'askep.'], function () {
-        Route::get('/', [AsuhanKeperawatanController::class, 'penghuni'])->name('index');
-        Route::post('/data', [AsuhanKeperawatanController::class, 'data_penghuni'])->name('data');
-    });
 
     Route::get('/', [RekamMedisController::class, 'penghuni'])->name('index');
     Route::post('/data', [RekamMedisController::class, 'data_penghuni'])->name('data');
