@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Accounts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AccountsController extends Controller
 {
@@ -23,6 +24,17 @@ class AccountsController extends Controller
 
     public function ubahPassword(Request $request)
     {
-        dd($request);
+        $message = [
+            'required' => 'Harap isi :attribute',
+            'same' => ':other tidak sesuai dengan :attribute'
+        ];
+        $this->validate($request, [
+            'passwordBaru' => 'required',
+            'konfirmasiPasswordBaru' => 'required|same:passwordBaru',
+        ], $message);
+
+        $this->Accounts->ganti_password($request->input('username'), Hash::make($request->input('passwordBaru')));
+
+        return redirect('accounts')->with(['message' => 'Password Berhasil Dirubah']);
     }
 }

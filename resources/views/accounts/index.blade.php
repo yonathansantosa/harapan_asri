@@ -1,7 +1,7 @@
 <x-app-layout>
   <div class="flex h-full w-full"
-    x-data="{ modalAddUser: false, modalGantiPassword: false, modalEditUser: false, modalGantiPassword: false, username: '' }"
-    :class="{ 'overflow-y-hidden': modalAddUser || modalGantiPassword || modalEditUser || modalGantiPassword }">
+    x-data="{ modalGantiPassword: false, username: '' }"
+    :class="{ 'overflow-y-hidden': modalGantiPassword }">
     <div class="flex-auto bg-indigo-50 py-6 px-10">
       <div>
         {{-- Message Banner --}}
@@ -12,7 +12,7 @@
         @endif
         @if (Session::has('message_success'))
           @for ($i = 0; $i < count(Session::get('message_success')); $i++)
-            <div class="mb-4 rounded-md border border-red-200 bg-green-100 py-3 px-5 text-sm text-green-900"
+            <div class="my-4 rounded-md border border-red-200 bg-green-100 py-3 px-5 text-sm text-green-900"
               role="alert">
               {{ Session::get('message_success')[$i] }}
             </div>
@@ -86,7 +86,7 @@
                         <div class="flex items-center space-x-4">
                           <a href="#"
                             class="text-lg font-medium text-indigo-400 transition duration-200 hover:text-indigo-900 hover:underline"
-                            id="ubahPassword" @click.prevent="default" @click="modalGantiPassword = true"
+                            id="ubahPassword" @click="username = '{{ $acc->username }}'; modalGantiPassword = true"
                             data-id="{{ $acc->username }}">
                             Ubah Password
                           </a>
@@ -128,7 +128,7 @@
           <div class="grid text-base">
             <form class="grid grid-cols-2 gap-2" action="{{ route('accounts.ubahpassword') }}" method="post">
               @csrf
-              <input type="hidden" name="username" id="usernamePass">
+              <input type="hidden" name="username" id="usernamePass" x-bind:value="username">
               <div class="py-2 pr-4 font-semibold">Password Baru </div>
               <input type="text" class="border p-2 pr-4" id="passwordBaru" name="passwordBaru" />
               <div class="py-2 pr-4 font-semibold">Konfirmasi Password Baru </div>
@@ -154,11 +154,16 @@
         }]
       });
 
-      $(document).on('click', '#ubahPassword', () => {
-        var username = $(this).data('id');
-        console.log(username);
-        $('input.usernamePass').val(username);
-      })
+      //   $(document).on('click', '#ubahPassword', () => {
+      //     var username = $(this).data('id');
+      //     console.log(username);
+      //     $('input.usernamePass').val(username);
+      //   })
     })
+  </script>
+  <script>
+    $("#dismiss-message").click(function() {
+      $("#message").addClass('hidden duration-100');
+    });
   </script>
 </x-app-layout>
