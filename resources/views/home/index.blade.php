@@ -33,15 +33,15 @@
 
 <body class="font-sans antialiased">
   <div class="mx-auto my-12 flex h-screen w-4/6 flex-col">
-    <div class="flex h-2/5 min-h-min w-full flex-col items-center justify-center bg-indigo-400 text-4xl text-white">
+    <div class="flex h-2/5 min-h-min w-full flex-col items-center justify-center bg-indigo-400 py-16 text-4xl text-white">
 
-      <h1 class="text-center font-bold">Selamat datang di sistem rekam medis</h1>
+      <h1 class="px-3 text-center font-bold">Selamat datang di sistem rekam medis</h1>
       <h1 class="text-center font-bold">Wisma Lansia Harapan Asri</h1>
     </div>
-    <div class="mx-auto grid w-full auto-rows-min grid-cols-3 items-center justify-center gap-4 bg-gray-400 p-4">
+    <div class="mx-auto grid w-full auto-rows-min grid-cols-1 items-center justify-center gap-4 bg-gray-400 p-4 md:grid-cols-2 lg:grid-cols-3">
       @include('layouts.navigationlist')
     </div>
-    <div class="mx-auto grid w-full auto-rows-min grid-cols-3 items-center justify-center gap-4 bg-gray-400 p-4">
+    <div class="mx-auto grid w-full auto-rows-min grid-cols-1 items-center justify-center gap-4 bg-gray-400 p-4 md:grid-cols-2 lg:grid-cols-3">
       <a href="{{ route('auth.logout') }}"
         class="mt-1 flex items-center space-x-4 rounded-md border-2 border-white bg-white p-2 text-lg font-semibold text-red-400 transition duration-200 hover:border-red-600 hover:text-red-600">
         <svg fill="none" class="mr-4 h-6 w-6"

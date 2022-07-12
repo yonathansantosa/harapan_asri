@@ -83,7 +83,7 @@
     {{ $slot }}
     <div class="absolute bottom-0 w-full bg-white text-center">
       Dibuat oleh Teknik Informatika Universitas Katolik Soegijapranata (UNIKA Soegijapranata)
-    </div> --}}
+    </div>
   </div>
 
   <script>

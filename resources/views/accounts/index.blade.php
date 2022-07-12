@@ -109,14 +109,14 @@
       x-transition:enter-end="opacity-100" x-transition:leave="transition duration-300"
       x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
       <div class="relative mx-2 my-10 opacity-100 sm:mx-auto sm:w-3/4 md:w-1/2 lg:w-2/4"
-        @click.away="modalGantiPassword = false" x-show="modalGantiPassword"
+        @click.away="modalGantiPassword = false; $refs.formElements1.value = ''; $refs.formElements2.value = ''; $refs.formElements3.value = ''" x-show="modalGantiPassword"
         x-transition:enter="transition transform duration-300" x-transition:enter-start="scale-0"
         x-transition:enter-end="scale-100" x-transition:leave="transition transform duration-300"
         x-transition:leave-start="scale-100" x-transition:leave-end="scale-0">
         <div class="relative z-20 rounded-md bg-white p-8 text-gray-900 shadow-lg">
           <header class="mb-12 flex items-center justify-between">
             <h2 class="text-xl font-semibold uppercase">Ubah Password</h2>
-            <button class="p-2 focus:outline-none" @click="modalGantiPassword = false">
+            <button class="p-2 focus:outline-none" @click="modalGantiPassword = false; $refs.formElements1.value = ''; $refs.formElements2.value = ''; $refs.formElements3.value = ''">
               <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                 viewBox="0 0 18 18">
                 <path
@@ -128,11 +128,11 @@
           <div class="grid text-base">
             <form class="grid grid-cols-2 gap-2" action="{{ route('accounts.ubahpassword') }}" method="post">
               @csrf
-              <input type="hidden" name="username" id="usernamePass" x-bind:value="username">
+              <input type="hidden" name="username" id="usernamePass" x-bind:value="username" x-ref="formElements1">
               <div class="py-2 pr-4 font-semibold">Password Baru </div>
-              <input type="text" class="border p-2 pr-4" id="passwordBaru" name="passwordBaru" />
+              <input type="text" class="border p-2 pr-4" id="passwordBaru" name="passwordBaru" value="" x-ref="formElements2" />
               <div class="py-2 pr-4 font-semibold">Konfirmasi Password Baru </div>
-              <input type="text" class="border p-2 pr-4" id="konfirmasiPasswordBaru" name="konfirmasiPasswordBaru" />
+              <input type="text" class="border p-2 pr-4" id="konfirmasiPasswordBaru" name="konfirmasiPasswordBaru" value="" x-ref="formElements3" />
               <button class="col-span-2 rounded-lg border-0 bg-green-300 p-3" type="submit">Submit</button>
             </form>
           </div>
