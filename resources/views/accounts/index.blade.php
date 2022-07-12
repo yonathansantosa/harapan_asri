@@ -1,7 +1,7 @@
 <x-app-layout>
   <div class="flex h-full w-full"
-    x-data="{ modalAddUser: false, modalDetailUser: false, modalEditUser: false, modalGantiPassword: false }"
-    :class="{ 'overflow-y-hidden': modalAddUser || modalDetailUser || modalEditUser || modalGantiPassword }">
+    x-data="{ modalAddUser: false, modalGantiPassword: false, modalEditUser: false, modalGantiPassword: false, username: '' }"
+    :class="{ 'overflow-y-hidden': modalAddUser || modalGantiPassword || modalEditUser || modalGantiPassword }">
     <div class="flex-auto bg-indigo-50 py-6 px-10">
       <div>
         {{-- Message Banner --}}
@@ -84,6 +84,12 @@
                       </td>
                       <td class="flex py-3 px-6">
                         <div class="flex items-center space-x-4">
+                          <a href="#"
+                            class="text-lg font-medium text-indigo-400 transition duration-200 hover:text-indigo-900 hover:underline"
+                            id="ubahPassword" @click.prevent="default" @click="modalGantiPassword = true"
+                            data-id="{{ $acc->username }}">
+                            Ubah Password
+                          </a>
                         </div>
                       </td>
                     </tr>
@@ -99,18 +105,18 @@
 
     <!-- START: Modal Detail User -->
     <div class="fixed inset-0 z-20 h-full w-full overflow-y-auto bg-black bg-opacity-50 duration-300"
-      x-show="modalDetailUser" x-transition:enter="transition duration-300" x-transition:enter-start="opacity-0"
+      x-show="modalGantiPassword" x-transition:enter="transition duration-300" x-transition:enter-start="opacity-0"
       x-transition:enter-end="opacity-100" x-transition:leave="transition duration-300"
       x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
       <div class="relative mx-2 my-10 opacity-100 sm:mx-auto sm:w-3/4 md:w-1/2 lg:w-2/4"
-        @click.away="modalDetailUser = false" x-show="modalDetailUser"
+        @click.away="modalGantiPassword = false" x-show="modalGantiPassword"
         x-transition:enter="transition transform duration-300" x-transition:enter-start="scale-0"
         x-transition:enter-end="scale-100" x-transition:leave="transition transform duration-300"
         x-transition:leave-start="scale-100" x-transition:leave-end="scale-0">
         <div class="relative z-20 rounded-md bg-white p-8 text-gray-900 shadow-lg">
           <header class="mb-12 flex items-center justify-between">
-            <h2 class="text-xl font-semibold uppercase">Detail User</h2>
-            <button class="p-2 focus:outline-none" @click="modalDetailUser = false">
+            <h2 class="text-xl font-semibold uppercase">Ubah Password</h2>
+            <button class="p-2 focus:outline-none" @click="modalGantiPassword = false">
               <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                 viewBox="0 0 18 18">
                 <path
@@ -119,57 +125,16 @@
               </svg>
             </button>
           </header>
-          <div class="mb-8 flex items-center">
-            {{-- <img id="detailFoto" class="h-48 w-48 rounded-full mx-auto" src="https://randomuser.me/api/portraits/men/24.jpg" alt="User Picture"> --}}
-            <img id="detailFoto" class="mx-auto h-48 w-48 rounded-full" alt="User Picture">
-
-          </div>
           <div class="grid text-base">
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Nama Lengkap </div>
-              <div class="py-2 pr-4" id="detailNama"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Username</div>
-              <div class="py-2 pr-4" id="detailUsername"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Jenis Kelamin</div>
-              <div class="py-2 pr-4" id="detailJenisKelamin"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Role User</div>
-              <div class="py-2 pr-4" id="detailRoleUser"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Alamat</div>
-              <div class="py-2 pr-4" id="detailAlamat"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Nomor Telepon</div>
-              <div class="py-2 pr-4" id="detailNoTelp"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">NIK</div>
-              <div class="py-2 pr-4" id="detailNIK"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Tgl Lahir</div>
-              <div class="py-2 pr-4" id="detailTglLahir"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold">Agama</div>
-              <div class="py-2 pr-4" id="detailAgama"></div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div class="py-2 pr-4 font-semibold" id="detailStatusUser">Status User</div>
-              <div class="py-2 pr-4">
-                <span class="rounded-full bg-green-200 py-1 px-3 text-sm font-semibold text-green-700"
-                  id="detailActive">Active</span>
-                <span class="rounded-full bg-red-200 py-1 px-3 text-sm font-semibold text-red-700"
-                  id="detailInActive">Inactive</span>
-              </div>
-            </div>
+            <form class="grid grid-cols-2 gap-2" action="{{ route('accounts.ubahpassword') }}" method="post">
+              @csrf
+              <input type="hidden" name="username" id="usernamePass">
+              <div class="py-2 pr-4 font-semibold">Password Baru </div>
+              <input type="text" class="border p-2 pr-4" id="passwordBaru" name="passwordBaru" />
+              <div class="py-2 pr-4 font-semibold">Konfirmasi Password Baru </div>
+              <input type="text" class="border p-2 pr-4" id="konfirmasiPasswordBaru" name="konfirmasiPasswordBaru" />
+              <button class="col-span-2 rounded-lg border-0 bg-green-300 p-3" type="submit">Submit</button>
+            </form>
           </div>
         </div>
       </div>
@@ -188,6 +153,12 @@
           }
         }]
       });
+
+      $(document).on('click', '#ubahPassword', () => {
+        var username = $(this).data('id');
+        console.log(username);
+        $('input.usernamePass').val(username);
+      })
     })
   </script>
 </x-app-layout>

@@ -20,4 +20,9 @@ class AccountsController extends Controller
 
         return view('accounts.index')->with($return);
     }
+
+    public function ubahPassword(Request $request)
+    {
+        dd($request);
+    }
 }

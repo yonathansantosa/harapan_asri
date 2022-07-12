@@ -48,6 +48,7 @@ Route::get('home', function () {
 
 Route::group(['prefix' => 'accounts', 'as' => 'accounts.', 'middleware' => ['role:admin,manajer']], function () {
     Route::get('/', [AccountsController::class, 'index'])->name('index');
+    Route::post('/ubahpassword', [AccountsController::class, 'ubahPassword'])->name('ubahpassword');
 });
 //admin
 Route::group(['prefix' => 'pegawai', 'as' => 'pegawai.', 'middleware' => ['role:admin,manajer']], function () {
