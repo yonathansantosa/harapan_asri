@@ -51,6 +51,7 @@ class PegawaiController extends Controller
         ];
 
         $this->validate($request, [
+            'username' => 'required',
             'nama' => 'required',
             'nik' => 'required|regex:/^[0-9]+$/',
             'tgl_lahir' => 'required|date',
@@ -157,7 +158,7 @@ class PegawaiController extends Controller
         return $return;
     }
 
-     public function ubahPegawai($id)
+    public function ubahPegawai($id)
     {
         $data = [
             'role' => $this->Role_User->get_role(),
@@ -201,10 +202,10 @@ class PegawaiController extends Controller
             $imagename = null;
             $request['foto'] = null;
         } else {
-            $imagename = $request['id'].'.'.$request->foto->extension();
+            $imagename = $request['id'] . '.' . $request->foto->extension();
             $request->foto->move(public_path('photos'), $imagename);
         }
-        
+
 
         if (empty($request->status_kepegawaian)) {
             $request['status_kepegawaian'] = null;
@@ -214,7 +215,7 @@ class PegawaiController extends Controller
             $request['pelatihan'] = null;
         }
 
-        
+
         $data = $request->except(['_token']);
         $data['foto'] = $imagename;
 
