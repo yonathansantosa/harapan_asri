@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Accounts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class AuthController extends Controller
@@ -14,28 +15,27 @@ class AuthController extends Controller
         $username = $request->username;
         $password = $request->password;
 
+        $credentials = $request->only('username', 'password');
+
         $message = ['required' => 'Harap isi :attribute'];
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required'
         ], $message);
 
-        $login = User::where('username', $username)->get();
+        $login = Accounts::where('username', $username)->get();
         // dd($login);
 
-        if (session()->has('auth_wlha')) {
-            session()->forget('auth_wlha');
+        if ($request->session()->has('auth_wlha')) {
+            $request->session()->forget('auth_wlha');
         }
         if (count($login) == 0) {
             return redirect('/')->with('login_error', 'Maaf username tidak ditemukan');
         } else if (Hash::check($password, $login->pluck('password')[0])) {
             if ($login->pluck('status')[0] == "1") {
-                session()->put('auth_wlha', $login);
-                if ($login->pluck('id_level')[0] == 1) {
-                    return redirect('/pegawai');
-                } else {
-                    return redirect('/rekmed');
-                }
+                $request->session()->put('auth_wlha.username', $login->pluck('username'));
+                $request->session()->put('auth_wlha.id_level', $login->pluck('id_level'));
+                return redirect('/home');
             } else {
                 return redirect('/')->with('login_error', 'Akun anda tidak aktif, segera hubungi admin');
             }

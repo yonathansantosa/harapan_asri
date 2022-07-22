@@ -17,15 +17,17 @@ class CreatePeminjamanAlatTable extends Migration
             // $table->id();
             // $table->string('id')->primary();
             $table->integer('id')->primary();
-            $table->string('id_pegawai',20);
+            $table->string('id_pegawai', 20)->nullable();
             $table->foreign('id_pegawai')
                 ->references('id')
-                ->on('users');
+                ->on('users')
+                ->onDelete('set null')->onUpdate('cascade');
 
-            $table->unsignedInteger('id_penghuni');
+            $table->unsignedInteger('id_penghuni')->nullable();
             $table->foreign('id_penghuni')
                 ->references('id')
-                ->on('penghuni');
+                ->on('penghuni')
+                ->onDelete('set null')->onUpdate('cascade');
 
             $table->string('jenis_alat');
             $table->string('ukuran');
@@ -33,7 +35,6 @@ class CreatePeminjamanAlatTable extends Migration
             $table->datetime('waktu');
             // $table->timestamps();
             $table->integer('deleted')->unsigned()->nullable()->default(0);
-
         });
     }
 

@@ -16,22 +16,28 @@
   <div class="flex h-screen w-full">
     <div class="flex-auto bg-indigo-50 py-6 px-10">
       <!-- START: List Penghuni -->
-      <div class="block p-8 bg-white rounded-md">
+      <div class="block rounded-md bg-white p-8">
         <!-- START: Heading -->
-        <h2 class="text-3xl font-semibold text-black-400 leading-tight">Daftar Penghuni</h2>
+        <h2 class="text-black-400 text-3xl font-semibold leading-tight">Daftar Penghuni</h2>
+        {{-- Message Banner --}}
+        @if (Session::has('message'))
+          <div class="my-4 rounded-md border border-red-200 bg-green-100 py-3 px-5 text-sm text-green-900" role="alert" id="message">
+            {!! Session::get('message') !!}<span class="float-right"><a id="dismiss-message" href="#">x</a></span>
+          </div>
+        @endif
         <!-- END: Heading -->
         <!-- START: Data Table -->
-        <div class="flex flex-col mt-8">
+        <div class="mt-8 flex flex-col">
           <div class="overflow-x-auto">
-            <div class="align-middle inline-block min-w-full shadow-md overflow-hidden border-b border-gray-200 rounded-lg">
-              <table id="table-data" class="min-w-full display cell-border">
+            <div class="inline-block min-w-full overflow-hidden rounded-lg border-b border-gray-200 align-middle shadow-md">
+              <table id="table-data" class="display cell-border min-w-full">
                 <thead class="bg-gray-50">
-                  <tr class="text-black uppercase text-base leading-normal">
-                    <th class="text-left py-3 px-6 font-semibold">ID</th>
-                    <th class="text-left py-3 px-6 font-semibold">Nama</th>
-                    <th class="text-left py-3 px-6 font-semibold">Ruang</th>
-                    <th class="text-left py-3 px-6 font-semibold">Status</th>
-                    <th class="text-left py-3 px-6 font-semibold">Action</th>
+                  <tr class="text-base uppercase leading-normal text-black">
+                    <th class="py-3 px-6 text-left font-semibold">ID</th>
+                    <th class="py-3 px-6 text-left font-semibold">Nama</th>
+                    <th class="py-3 px-6 text-left font-semibold">Ruang</th>
+                    <th class="py-3 px-6 text-left font-semibold">Status</th>
+                    <th class="py-3 px-6 text-left font-semibold">Action</th>
                   </tr>
                 </thead>
                 {{-- <tbody class="text-gray-700 text-base font-light bg-white">
@@ -119,6 +125,11 @@
         ],
       });
     })
+  </script>
+  <script>
+    $("#dismiss-message").click(function() {
+      $("#message").addClass('hidden duration-100');
+    });
   </script>
 
 </x-app-layout>

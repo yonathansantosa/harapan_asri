@@ -14,17 +14,15 @@ class RelationIdlevelRoleUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('id_level')
-                ->after('username')
-                ;
+            $table->integer('id_level')->nullable()
+                ->after('username');
 
-                //default onDelete and onUpdate RESTRICT
+            //default onDelete and onUpdate RESTRICT
             $table->foreign('id_level')
                 ->references('id')
                 ->on('role_users')
-                ;
-                // ->onDelete('cascade')
-                // ->onUpdate('cascade')
+                ->onDelete('set null')->onUpdate('cascade');
+            // ->onUpdate('cascade')
         });
     }
 

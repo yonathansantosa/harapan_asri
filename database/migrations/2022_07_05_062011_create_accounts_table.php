@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RelationIdpengembalianAlat extends Migration
+class CreateAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class RelationIdpengembalianAlat extends Migration
      */
     public function up()
     {
-        Schema::table('peminjaman_alat', function (Blueprint $table) {
-            $table->integer('id_pengembalian_alat')
-                ->after('ukuran')->nullable();
-            $table->foreign('id_pengembalian_alat')
+        Schema::create('accounts', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('username')->unique();
+            $table->integer('id_level')->nullable();
+            $table->boolean('status')->default(1);
+            $table->string('password');
+            $table->foreign('id_level')
                 ->references('id')
-                ->on('pengembalian_alat')
+                ->on('role_users')
                 ->onDelete('set null')->onUpdate('cascade');
         });
     }
@@ -30,8 +33,6 @@ class RelationIdpengembalianAlat extends Migration
      */
     public function down()
     {
-        Schema::table('peminjaman_alat', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('accounts');
     }
 }

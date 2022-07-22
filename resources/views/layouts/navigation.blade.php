@@ -20,8 +20,8 @@
 {{-- START: Button Menu --}}
 <div class="fixed">
   <a href="#" @click="sidebarOpen = ! sidebarOpen"
-    class="mt-2 ml-2 w-12 h-12 items-center rounded-md space-x-4 text-white font-semibold bg-indigo-400 text-lg hover:bg-indigo-600 hover:text-indigo-600 transition duration-200 mb-auto" :class="sidebarOpen ? 'hidden' : 'flex'">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list w-6 h-6 m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
+    class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-indigo-400 text-lg font-semibold text-white transition duration-200 hover:bg-indigo-600 hover:text-indigo-600" :class="sidebarOpen ? 'hidden' : 'flex'">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list m-auto h-6 w-6 text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
       <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
     </svg>
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? '' : 'hidden'">
@@ -33,7 +33,7 @@
 <?php $routes_name = explode('.', Route::currentRouteName()); ?>
 {{-- START: Side Navbar --}}
 <template x-if="sidebarOpen">
-  <div class="w-full sm:w-auto z-50 flex bg-white h-screen fixed"
+  <div class="fixed z-50 flex h-screen w-full bg-white sm:w-auto"
     x-transition:enter="transition origin-left duration-200"
     x-transition:enter-start="opacity-0 transform"
     x-transition:enter-end="opacity-100 transform"
@@ -41,13 +41,13 @@
     x-transition:leave-start="opacity-100 transform"
     x-transition:leave-end="opacity-0 transform"
     @click.away="sidebarOpen = ! sidebarOpen">
-    <div class="flex h-full w-full sm:w-auto justify-between flex-shrink-0 py-6 px-4 sticky-top-0 overflow-y-auto transition duration-200 flex-col" id="vertical-navbar">
+    <div class="sticky-top-0 flex h-full w-full flex-shrink-0 flex-col justify-between overflow-y-auto py-6 px-4 transition duration-200 sm:w-auto" id="vertical-navbar">
       <div class="flex flex-col space-y-1">
-        <div class="flex items-center justify-between border-b-2 pb-4">
-          <h1 class="mt-2 text-lg font-bold uppercase text-center text-indigo-500 tracking-wide">WISMA LANSIA<br>HARAPAN ASRI</h1>
+        <div class="flex items-center justify-between">
+          <h1 class="mt-2 text-center text-lg font-bold uppercase tracking-wide text-indigo-500">WISMA LANSIA<br>HARAPAN ASRI</h1>
           <a href="#" @click="sidebarOpen = ! sidebarOpen"
-            class="mt-2 ml-2 w-12 h-12 items-center rounded-md space-x-4 text-white font-semibold text-lg bg-red-400 hover:bg-red-600 hover:text-indigo-600 transition duration-200 mb-auto" :class="sidebarOpen ? 'flex' : 'hidden'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list w-6 h-6 m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
+            class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-red-400 text-lg font-semibold text-white transition duration-200 hover:bg-red-600 hover:text-indigo-600" :class="sidebarOpen ? 'flex' : 'hidden'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list m-auto h-6 w-6 text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
               <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
             </svg>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill m-auto text-white" viewBox="0 0 16 16" :class="sidebarOpen ? '' : 'hidden'">
@@ -55,6 +55,7 @@
             </svg>
           </a>
         </div>
+<<<<<<< HEAD
         <a href="{{ route('pegawai.index') }}"
           class="flex mt-1 p-2 items-center space-x-4 font-semibold text-lg rounded-md border-2 transition duration-200
                     @if (in_array('pegawai', $routes_name)) {{ 'bg-indigo-600 text-white border-indigo-600' }}
@@ -166,11 +167,20 @@
           </svg>
           Asuhan Keperawatan
         </a>
+=======
+        <div class="border-b-2 pb-4 text-lg font-semibold">Sebagai {{ ucwords(session()->get('auth_wlha.username.0')) }}</div>
+        {{-- Use icon from here
+            https://heroicons.com/ choose from the outline one --}}
+        <div>
+          @include('layouts.navigationlist')
+        </div>
+>>>>>>> 4b1a7f466987bf81e4782f662e050f2b743da280
       </div>
-      <div class="flex flex-col space-y-4 mt-auto">
+      {{-- LOGOUT --}}
+      <div class="mt-auto flex flex-col space-y-4">
         <a href="{{ route('auth.logout') }}"
-          class="flex mt-1 p-2 items-center space-x-4 text-red-400 font-semibold text-lg hover:text-red-600 transition duration-200">
-          <svg class="w-6 h-6 mr-4 text-red-400 hover:text-red-600 transition duration-200" fill="none"
+          class="mt-1 flex items-center space-x-4 p-2 text-lg font-semibold text-red-400 transition duration-200 hover:text-red-600">
+          <svg class="mr-4 h-6 w-6 text-red-400 transition duration-200 hover:text-red-600" fill="none"
             stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
@@ -180,15 +190,14 @@
         </a>
       </div>
     </div>
-  </div>
 </template>
 <!-- END: Side Navbar -->
-<div class="flex h-full mb-96">
-  <div class="h-full bg-indigo-50 overflow-y-auto" :class="sidebarOpen ? 'w-screen' : 'w-full'" id='content'>
+<div class="mb-96 flex h-full">
+  <div class="h-full overflow-y-auto bg-indigo-50" :class="sidebarOpen ? 'w-screen' : 'w-full'" id='content'>
     {{ $slot }}
-    <div class="absolute w-full bottom-0 bg-white text-center">
+    <div class="absolute bottom-0 w-full bg-white text-center">
       Dibuat oleh Teknik Informatika Universitas Katolik Soegijapranata (UNIKA Soegijapranata)
-    </div>
+    </div> --}}
   </div>
 
   <script>
