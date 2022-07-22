@@ -111,7 +111,6 @@ class User extends Model
                     'notelp' => $data->notelp,
                     'mulaimasuk' => $data->mulaimasuk,
                     'ijazah' => $data->ijazah,
-                    'title' => $data->title,
                     'status_kepegawaian' => $data->status_kepegawaian,
                     'pelatihan' => $data->pelatihan
                 ]);

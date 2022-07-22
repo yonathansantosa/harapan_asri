@@ -33,11 +33,13 @@ class PegawaiController extends Controller
     public function tambahPegawai()
     {
         $role =  ['role' => $this->Role_User->get_role()];
+        // DD($role);
         return view('pegawai.tambah')->with($role);
     }
 
     public function prosesTambahPegawai(Request $request)
     {
+        // DD($request);
         // return $request->foto->getClientOriginalExtension();
         $message = [
             'required' => 'Harap isi :attribute',
@@ -60,10 +62,10 @@ class PegawaiController extends Controller
             'alamat' => 'required',
             'notelp' => 'required',
             'mulaimasuk' => 'required|date',
-            'ijazah' => 'required',
-            'title' => 'required',
-            'status_kepegawaian' => 'required',
-            'pelatihan' => 'required',
+            // 'ijazah' => 'required',
+            // 'title' => 'required',
+            // 'status_kepegawaian' => 'required',
+            // 'pelatihan' => 'required',
             // 'foto' => 'required|mimes:jpg,jpeg,png'
 
         ], $message);
@@ -88,7 +90,7 @@ class PegawaiController extends Controller
         } else {
             $message_success = ['message_success' => ['Data Pegawai Berhasil ditambahkan']];
 
-            return redirect('/admin/kepegawaian')->with($message_success);
+            return redirect('/pegawai')->with($message_success);
         }
 
         // return $extension;
@@ -164,6 +166,7 @@ class PegawaiController extends Controller
             'role' => $this->Role_User->get_role(),
             'user' => $this->User->get_detail($id)
         ];
+
         return view('pegawai.ubah')->with($data);
     }
 
@@ -191,7 +194,6 @@ class PegawaiController extends Controller
             'notelp' => 'required',
             'mulaimasuk' => 'required|date',
             'ijazah' => 'required',
-            'title' => 'required',
             'status_kepegawaian' => 'required',
             'pelatihan' => 'required',
             'foto' => 'mimes:jpg,jpeg,png'

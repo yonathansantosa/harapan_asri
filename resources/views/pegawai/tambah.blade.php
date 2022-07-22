@@ -19,6 +19,15 @@
           enctype="multipart/form-data">
           @csrf
 
+          <!-- username Input -->
+          <x-label for="username" :value="__('Username')" />
+          <x-input id="username" type="text" name="username" :value="old('username')"
+            placeholder="Masukkan Username" autocomplete="off" />
+          @if (Session::has('error_update.username'))
+            {{ Session::get('error_update.username') }}
+            <br>
+          @endif
+
           <!-- nama Input -->
           <x-label for="nama" :value="__('Nama Lengkap')" />
           <x-input id="nama" type="text" name="nama" :value="old('nama')"
@@ -118,16 +127,13 @@
           @endif
 
           <!-- Pekerjaan Input -->
-          <x-label for="pekerjaan" :value="__('Pekerjaan')" />
-          <div class="flex flex-wrap">
-            @foreach (['Admin', 'Manajer', 'Penanggung Jawab', 'Asisten Perawat', 'Fisioterapi', 'Farmasi', 'Kantor'] as $title)
-              <x-label for="{{ $title }}" class="flex p-2 cursor-pointer">
-                <input class="my-auto transform scale-125" type="radio" id="{{ $title }}" name="title"
-                  value="{{ $title }}" />
-                <div class="px-2">{{ ucfirst($title) }}</div>
-              </x-label>
+          <x-label for="id_level" :value="__('Pekerjaan')" />
+          <select name="id_level" id="id_level" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 mb-4">
+            <option value="" selected>Pilih Salah Satu</option>
+            @foreach ($role as $r)
+              <option value="{{ $r->id}}">{{ ucfirst($r->keterangan)}}</option>
             @endforeach
-          </div>
+          </select>
           @if (Session::has('error_tambah.pekerjaan'))
             {{ Session::get('error_tambah.pekerjaan') }}
             <br>

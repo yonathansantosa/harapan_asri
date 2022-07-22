@@ -37,7 +37,6 @@ class UserSeeder extends Seeder
             'notelp' => '081023456789',
             'mulaimasuk' => '2021-10-19',
             'ijazah' => 'ijazah_admin-20211019-001.jpg',
-            'title' => 'admin',
         ]);
 
         //User
@@ -56,7 +55,6 @@ class UserSeeder extends Seeder
             'notelp' => '081234567890',
             'mulaimasuk' => '2021-10-19',
             'ijazah' => 'ijazah_prw-20211019-001.jpg',
-            'title' => 'perawat',
         ]);
 
         //Farmasi
