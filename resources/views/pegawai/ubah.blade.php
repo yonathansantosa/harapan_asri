@@ -17,44 +17,17 @@
                 <form method="POST" action="{{ route('pegawai.prosesubah') }}"
                     enctype="multipart/form-data">
                     @csrf
-                    <!-- NIK Input -->
+                    <!-- NIP Input -->
                     <x-label for="id" :value="__('Nomor Induk Pegawai')" />
                     <x-input class="bg-gray-100" id="id" type="text" name="id" value="{{ old('id') !== null ? old('id') : $user[0]->id }}" readonly />
-                    <div class="flex justify-between space-x-4">
-                        <!-- Username Input -->
-                        <div class="w-1/2 pr-4">
-                            <x-label for="username" :value="__('Username')" />
-                            <x-input id="username" type="text" name="username" value="{{ old('username') !== null ? old('username') : $user[0]->username }}"
-                                placeholder="Masukkan Username" autofocus autocomplete="off" />
-                            @if (Session::has('error_update.username'))
-                                {{ Session::get('error_update.username') }}
-                                <br>
-                            @endif
-                        </div>
-                        <div class="w-1/2">
-                            <!-- nama Input -->
-                            <x-label for="nama" :value="__('Nama Lengkap')" />
-                            <x-input id="nama" type="text" name="nama" value="{{ old('nama') !== null ? old('nama') : $user[0]->nama }}"
-                                placeholder="Masukkan Nama Lengkap" autocomplete="off" />
-                            @if (Session::has('error_update.nama'))
-                                {{ Session::get('error_update.nama') }}
-                                <br>
-                            @endif
-                        </div>
-                    </div>
-
-                    <!-- Role User Input -->
-                    <x-label for="id_level" :value="__('Role User')" />
-                    <x-option-select id="id_level" name="id_level">
-                        <x-slot name="option">
-                            @if (!empty($role))
-                                @foreach ($role as $r)
-                                    <option value="{{ $r->id }}" @if (old('id_level') == $r->id or $user[0]->id_level == $r->id) selected @endif>
-                                        {{ $r->keterangan }}</option>
-                                @endforeach
-                            @endif
-                        </x-slot>
-                    </x-option-select>
+                    <!-- nama Input -->
+                    <x-label for="nama" :value="__('Nama Lengkap')" />
+                    <x-input id="nama" type="text" name="nama" value="{{ old('nama') !== null ? old('nama') : $user[0]->nama }}"
+                        placeholder="Masukkan Nama Lengkap" autocomplete="off" />
+                    @if (Session::has('error_update.nama'))
+                        {{ Session::get('error_update.nama') }}
+                        <br>
+                    @endif
 
                     <!-- NIK Input -->
                     <x-label for="nik" :value="__('NIK (Sesuai KTP)')" />
@@ -143,9 +116,13 @@
                     @endif
 
                     <!-- Pekerjaan Input -->
-                    <x-label for="pekerjaan" :value="__('Pekerjaan')" />
-                    <x-input id="title" type="text" name="title" value="{{ old('title') !== null ? old('title') : $user[0]->title }}"
-                        placeholder="Masukkan Pekerjaan Anda" autocomplete="off" />
+                    <x-label for="id_level" :value="__('Pekerjaan')" />
+                    <select name="id_level" id="id_level" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-blue-500 focus:ring-blue-500 mb-4">
+                        <option value="" selected>Pilih Salah Satu</option>
+                        @foreach ($role as $r)
+                            <option value="{{ $r->id }}" {{ $r->id == $user[0]->id_level ? 'selected' : '' }}>{{ ucfirst($r->keterangan)}}</option>
+                        @endforeach
+                    </select>
                     @if (Session::has('error_tambah.pekerjaan'))
                         {{ Session::get('error_tambah.pekerjaan') }}
                         <br>
@@ -184,7 +161,7 @@
 
                     <!-- Button Input -->
                     <p class="flex flex-col sm:flex-row items-center justify-center mt-4 text-center text-lg text-gray-500 space-y-6 mb-6">
-                        <input type="submit" class="w-full sm:w-1/2 mt-6 bg-indigo-400 sm:mr-2 px-4 py-4 rounded-md text-white font-semibold shadow-md items-center hover:bg-indigo-600 transition duration-200" value="Simpan">
+                        <input type="submit" class="w-full sm:w-1/2 mt-6 bg-indigo-400 sm:mr-2 px-4 py-4 rounded-md text-white font-semibold shadow-md items-center hover:bg-indigo-600 transition duration-200 cursor-pointer" value="Simpan">
                         <a class="w-full sm:w-1/2 border px-4 py-4 rounded-md sm:ml-2 border-white text-indigo-400 font-medium text-lg hover:border-red-900 hover:text-red-900 transition duration-200" href="{{ route('pegawai.index') }}">Batal</a>
                     </p>
 

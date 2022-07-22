@@ -29,8 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('alamat');
             $table->string('notelp');
             $table->date('mulaimasuk');
-            $table->string('ijazah',150);
-            $table->string('title');
+            $table->string('ijazah',150)->nullable();
             $table->string('status_kepegawaian')->nullable(true);
             $table->text('pelatihan')->nullable(true);
 
