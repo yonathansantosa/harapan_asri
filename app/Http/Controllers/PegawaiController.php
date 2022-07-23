@@ -53,7 +53,7 @@ class PegawaiController extends Controller
         ];
 
         $this->validate($request, [
-            'username' => 'required',
+            // 'username' => 'required',
             'nama' => 'required',
             'nik' => 'required|regex:/^[0-9]+$/',
             'tgl_lahir' => 'required|date',
@@ -193,9 +193,9 @@ class PegawaiController extends Controller
             'alamat' => 'required',
             'notelp' => 'required',
             'mulaimasuk' => 'required|date',
-            'ijazah' => 'required',
-            'status_kepegawaian' => 'required',
-            'pelatihan' => 'required',
+            // 'ijazah' => 'required',
+            // 'status_kepegawaian' => 'required',
+            // 'pelatihan' => 'required',
             'foto' => 'mimes:jpg,jpeg,png'
 
         ], $message);

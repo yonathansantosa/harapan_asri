@@ -25,9 +25,7 @@ class UserSeeder extends Seeder
         User::where('id', 'ADM-20211019-001')->delete();
         DB::table('users')->insert([
             'id' => 'ADM-20211019-001',
-            'username' => 'admin',
             'id_level' => 1,
-            'password' => Hash::make('admin123'),
             'nama' => 'Admin 1',
             'NIK' => '6543210987654321',
             'tgl_lahir' => '1985-01-01',
@@ -43,9 +41,7 @@ class UserSeeder extends Seeder
         User::where('id', 'APR-20211019-2001')->delete();
         DB::table('users')->insert([
             'id' => 'APR-20211019-001',
-            'username' => 'perawat1',
             'id_level' => 2,
-            'password' => Hash::make('perawat1'),
             'nama' => 'Perawat 1',
             'NIK' => '1234567890123456',
             'tgl_lahir' => '1995-10-01',

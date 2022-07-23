@@ -51,10 +51,10 @@ class User extends Model
     public function tambah($data){
         $return['error_tambah'] = null;
 
-        $check_username = DB::table('users')->where('username', $data->username)->get();
-        if(count($check_username) > 0){
-            $return['error_tambah']['username'] = 'Username sudah ada';
-        }
+        // $check_username = DB::table('users')->where('username', $data->username)->get();
+        // if(count($check_username) > 0){
+        //     $return['error_tambah']['username'] = 'Username sudah ada';
+        // }
         // $return['error_tambah']['password'] = $data->password;
         // $return['error_tambah']['password_confirmation'] = $data->password_confirmation;
         // $return['error_tambah']['id_level'] = $data->id_level;
@@ -97,10 +97,10 @@ class User extends Model
                 }
                 DB::table('users')->insert([
                     'id' => $role . '-' . $tgl_masuk . '-001',
-                    'username' => $data->username,
+                    // 'username' => $data->username,
                     'id_level' => $data->id_level,
                     'status' => 1,
-                    'password' => Hash::make($data->password),
+                    // 'password' => Hash::make($data->password),
                     'nama' => $data->nama,
                     'nik' => $data->nik,
                     'foto' => $nama_foto,

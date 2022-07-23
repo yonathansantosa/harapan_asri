@@ -19,15 +19,6 @@
           enctype="multipart/form-data">
           @csrf
 
-          <!-- username Input -->
-          <x-label for="username" :value="__('Username')" />
-          <x-input id="username" type="text" name="username" :value="old('username')"
-            placeholder="Masukkan Username" autocomplete="off" />
-          @if (Session::has('error_update.username'))
-            {{ Session::get('error_update.username') }}
-            <br>
-          @endif
-
           <!-- nama Input -->
           <x-label for="nama" :value="__('Nama Lengkap')" />
           <x-input id="nama" type="text" name="nama" :value="old('nama')"
