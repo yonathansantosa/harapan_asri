@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Obat;
+use App\Models\Penghuni;
 use App\Models\HistoryObat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -58,6 +59,7 @@ class FarmasiController extends Controller
             '41' => '41 - Lotion/Solution',
             '81' => '81 - Tablet Dispersi',
         ];
+        $this->Penghuni = new Penghuni();
     }
 
     public function index()
@@ -136,6 +138,8 @@ class FarmasiController extends Controller
     public function tambah_transaksi($id_obat = null)
     {
         $data['obat'] = $this->Obat::daftar_obat_all();
+        // $data['penghuni'] = Penghuni::list_penghuni();
+        $data['penghuni'] = Penghuni::list_penghuni();
         $data['id_obat'] = $id_obat;
 
         return view('farmasi/tambah_transaksi', $data)->render();
@@ -146,6 +150,7 @@ class FarmasiController extends Controller
         $data['id_obat'] = $request->input('id_obat');
         $data['stokobat'] = $request->input('stokobat');
         $data['keterangan'] = $request->input('keterangan');
+        $data['id_penghuni'] = $request->input('id_penghuni');
 
         $this->HistoryObat->simpan($data, '');
 

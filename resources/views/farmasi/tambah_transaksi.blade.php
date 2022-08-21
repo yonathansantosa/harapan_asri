@@ -32,6 +32,15 @@
             <x-label for="keterangan" :value="__('Keterangan Transaksi')" />
             <x-input type="text" id="keterangan" name="keterangan" value="{{ old('keterangan') ? old('keterangan') : '' }}" placeholder=" Masukkan Keterangan Transaksi" autocomplete="off" />
 
+            {{-- Nama Penghuni --}}
+            <x-label for="id_penghuni" :value="__('Nama Penghuni')" />
+            <select id="id_penghuni" name="id_penghuni" class="block w-full rounded-md border border-gray-300 px-3 py-2 text-xl placeholder-gray-400 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100">
+              <option></option>
+              @foreach ($penghuni as $row)
+                <option value="{{ $row->id }}" {{ $id_obat == $row->id ? 'selected' : '' }}>{{ $row->no_induk }} -- {{ $row->nama }}</option>
+              @endforeach
+            </select>
+
             <!-- Button Input -->
             <p class="mt-4 mb-6 flex flex-col items-center justify-center space-y-6 text-center text-lg text-gray-500 sm:flex-row">
               <input type="submit" class="mt-6 w-full items-center rounded-md bg-indigo-400 px-4 py-4 font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600 sm:mr-2 sm:w-1/2" value="Simpan">
