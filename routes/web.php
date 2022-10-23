@@ -128,8 +128,10 @@ Route::group(['prefix' => 'farmasi', 'as' => 'farmasi.', 'middleware' => ['role:
     Route::post('/proses_hapus_transaksi', [FarmasiController::class, 'proses_hapus_transaksi'])->name('proses_hapus_transaksi')->middleware('role:admin,farmasi');
     Route::post('/proses_tambah_obat', [FarmasiController::class, 'proses_tambah_obat'])->name('proses_tambah_obat')->middleware('role:admin,farmasi');
     Route::post('/proses_tambah_transaksi', [FarmasiController::class, 'proses_tambah_transaksi'])->name('proses_tambah_transaksi')->middleware('role:admin,farmasi');
+    Route::post('/proses_pindah_kepemilikan', [FarmasiController::class, 'proses_pindah_kepemilikan'])->name('proses_pindah_kepemilikan')->middleware('role:admin,farmasi');
     Route::get('/transaksi/{id_obat}', [FarmasiController::class, 'transaksi'])->name('transaksi');
     Route::get('/tambah_transaksi/{id_obat?}', [FarmasiController::class, 'tambah_transaksi'])->name('tambah_transaksi')->middleware('role:admin,farmasi');
+    Route::get('/pindah_kepemilikan/{id_obat?}', [FarmasiController::class, 'pindah_kepemilikan'])->name('pindah_kepemilikan')->middleware('role:admin,farmasi');
     Route::post('/proses_edit_obat', [FarmasiController::class, 'proses_edit_obat'])->name('proses_edit_obat')->middleware('role:admin,farmasi');
     Route::post('/proses_edit_transaksi', [FarmasiController::class, 'proses_edit_transaksi'])->name('proses_edit_transaksi')->middleware('role:admin,farmasi');
     Route::get('/edit_obat/{id_obat}', [FarmasiController::class, 'edit_obat'])->name('edit_obat')->middleware('role:admin,farmasi');

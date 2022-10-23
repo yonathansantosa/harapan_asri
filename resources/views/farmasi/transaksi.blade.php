@@ -50,6 +50,7 @@
         <div class="mt-2 flex">
           <div class="mt-2 mr-auto flex">
             <a href={{ route('farmasi.tambah_transaksi', ['id_obat' => $obat->id]) }} class="mr-2 flex items-center rounded-md bg-indigo-400 px-2 py-2 align-middle font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600">Tambah Transaksi Baru</a>
+            <a href={{ route('farmasi.pindah_kepemilikan', ['id_obat' => $obat->id]) }} class="mr-2 flex items-center rounded-md bg-indigo-400 px-2 py-2 align-middle font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600">Pindah Kepemilikan Obat</a>
           </div>
           <a href={{ route('farmasi.index') }} class="ml-auto flex items-center rounded-md bg-indigo-400 px-2 py-2 align-middle font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600">
             Kembali
@@ -83,6 +84,7 @@
                     <th class="py-3 px-6 text-left font-semibold">Keterangan</th>
                     <th class="py-3 px-6 text-left font-semibold">Stock</th>
                     <th class="py-3 px-6 text-left font-semibold">Waktu</th>
+                    <th class="py-3 px-6 text-left font-semibold">Penghuni</th>
                     <th class="py-3 px-6 text-left font-semibold">Action</th>
                   </tr>
                 </thead>
@@ -139,6 +141,9 @@
           },
           {
             'data': 'waktu'
+          },
+          {
+            'data': 'penghuni'
           },
           {
             'data': 'action'
