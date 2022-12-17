@@ -10,3 +10,5 @@ require( 'datatables.net-fixedheader-dt' );
 require( 'datatables.net-responsive-dt' );
 require( 'datatables.net-searchpanes-dt' );
 require( 'datatables.net-select-dt' );
+require( 'datatables.net-fixedcolumns-dt' );
+require( 'datatables.net-rowgroup-dt' );

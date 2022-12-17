@@ -84,9 +84,11 @@ Route::group(['prefix' => 'penghuni', 'as' => 'penghuni.', 'middleware' => ['rol
     Route::post('/data', [PenghuniController::class, 'data_penghuni'])->name('data');
 });
 
-Route::group(['prefix' => 'askep', 'as' => 'askep.'], function () {
+Route::group(['prefix' => 'askep', 'as' => 'askep.', 'middleware' => ['role:admin,manajer,perawat']], function () {
     Route::get('/', [AsuhanKeperawatanController::class, 'penghuni'])->name('index');
     Route::post('/data', [AsuhanKeperawatanController::class, 'data_penghuni'])->name('data');
+    Route::get('/penghuni/{id}', [AsuhanKeperawatanController::class, 'askep_penghuni'])->name('penghuni');
+    Route::post('/data_askep_penghuni', [AsuhanKeperawatanController::class, 'data_askep_penghuni'])->name('data_askep_penghuni');
 });
 
 Route::group(['prefix' => 'rekmed', 'as' => 'rekmed.', 'middleware' => ['role:admin,manajer,perawat,assisten']], function () {

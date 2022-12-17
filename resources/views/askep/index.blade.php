@@ -14,62 +14,23 @@
   <div class="flex h-screen w-full">
     <div class="flex-auto bg-indigo-50 py-6 px-10">
       <!-- START: List Penghuni -->
-      <div class="block p-8 bg-white rounded-md">
+      <div class="block rounded-md bg-white p-8">
         <!-- START: Heading -->
-        <h2 class="text-3xl font-semibold text-black-400 leading-tight">Daftar Penghuni</h2>
+        <h2 class="text-black-400 text-3xl font-semibold leading-tight">Daftar Penghuni</h2>
         <!-- START: Data Table -->
-        <div class="flex flex-col mt-8">
+        <div class="mt-8 flex flex-col">
           <div class="overflow-x-auto">
-            <div class="align-middle inline-block min-w-full shadow-md overflow-hidden border-b border-gray-200 rounded-lg">
-              <table id="table-data" class="min-w-full display cell-border">
+            <div class="inline-block min-w-full overflow-hidden rounded-lg border-b border-gray-200 align-middle shadow-md">
+              <table id="table-data" class="display cell-border min-w-full">
                 <thead class="bg-gray-50">
-                  <tr class="text-black uppercase text-base leading-normal">
-                    <th class="text-left py-3 px-6 font-semibold">ID</th>
-                    <th class="text-left py-3 px-6 font-semibold">Nama</th>
-                    <th class="text-left py-3 px-6 font-semibold">Ruang</th>
-                    <th class="text-left py-3 px-6 font-semibold">Status</th>
-                    <th class="text-left py-3 px-6 font-semibold">Action</th>
+                  <tr class="text-base uppercase leading-normal text-black">
+                    <th class="py-3 px-6 text-left font-semibold">ID</th>
+                    <th class="py-3 px-6 text-left font-semibold">Nama</th>
+                    <th class="py-3 px-6 text-left font-semibold">Ruang</th>
+                    <th class="py-3 px-6 text-left font-semibold">Status</th>
+                    <th class="py-3 px-6 text-left font-semibold">Action</th>
                   </tr>
                 </thead>
-                {{-- <tbody class="text-gray-700 text-base font-light bg-white">
-                                    @foreach ($user as $u)
-                                        <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <span class="font-medium">{{ $u->no_induk }}</span>
-                                                </div>
-                                            </td>
-                                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <span class="font-semibold">{{ $u->nama }}</span>
-                                                </div>
-                                            </td>
-                                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <span class="font-semibold">{{ $u->ruang }}</span>
-                                                </div>
-                                            </td>
-                                            <td class="py-3 px-6 text-left whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    @if ($u->meninggal == 0 || $u->keluar == 0)
-                                                        <span class="bg-green-200 text-green-700 font-semibold py-1 px-3 rounded-full text-sm">Active</span>
-                                                    @else
-                                                        <span class="bg-red-200 text-red-700 font-semibold py-1 px-3 rounded-full text-sm">Inactive</span>
-                                                    @endif
-                                                </div>
-                                            </td>
-                                            <td class="flex py-3 px-6">
-                                                <div class="flex items-center space-x-4">
-                                                    <a href="{{ route('rekmed.detail', ['id' => $u->id]) }}" class="text-indigo-400 font-medium text-lg hover:text-indigo-900 transition duration-200">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                                        </svg> Asuhan Keperawatan
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody> --}}
               </table>
             </div>
           </div>

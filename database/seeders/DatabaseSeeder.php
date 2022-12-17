@@ -28,6 +28,11 @@ class DatabaseSeeder extends Seeder
         $this->call(McuSeeder::class);
         $this->call(MobilitasSeeder::class);
         $this->call(AccountSeeder::class);
+
+        $this->call(AskepDiagnosaSeeder::class);
+        $this->call(AskepGejalaDiagnosaSeeder::class);
+        $this->call(AskepIntervensiDiagnosaSeeder::class);
+        $this->call(AskepPenyebabDiagnosaSeeder::class);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
