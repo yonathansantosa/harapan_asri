@@ -54,6 +54,13 @@
             _token: "{{ csrf_token() }}"
           }
         },
+        buttons: {
+          extend: 'print',
+          text: '<i style="font-size:24px;color:#337ab7" class="fa fa fa-print fa-2x"></i>',
+          exportOptions: {
+            stripHtml: false
+          }
+        }
         columnDefs: [{
           orderable: false,
           targets: 4

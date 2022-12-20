@@ -41,7 +41,6 @@ class AsuhanKeperawatanController extends Controller
     $start = $request->input('start');
     $order = $columns[$request->input('order.0.column')];
     $dir = $request->input('order.0.dir');
-
     if (empty($request->input('search.value'))) {
       $penghuni = $this->Penghuni->daftar_penghuni('', $start, $limit, $order, $dir);
     } else {
@@ -121,32 +120,46 @@ class AsuhanKeperawatanController extends Controller
     foreach ($askep_penghuni as $key => $p) {
       $row['id'] = $start + $key + 1;
       $row['penghuni'] = $p->nama;
-      $gejala = $this->AskepPenghuni->data_askep_gejala(explode(',', $p->id_gejalas));
-      $intervensi = $this->AskepPenghuni->data_askep_intervensi(explode(',', $p->id_intervensis));
-      $penyebab = $this->AskepPenghuni->data_askep_penyebab(explode(',', $p->id_penyebabs));
+      $gejala = $p->id_gejalas != null ? $this->AskepPenghuni->data_askep_gejala(explode(',', $p->id_gejalas)) : [];
+      $intervensi = $p->id_intervensis != null ? $this->AskepPenghuni->data_askep_intervensi(explode(',', $p->id_intervensis)) : [];
+      $penyebab = $p->id_penyebabs != null ? $this->AskepPenghuni->data_askep_penyebab(explode(',', $p->id_penyebabs)) : [];
       $row['timestamp'] = $p->created_at;
-      $row['gejala'] = '<ol class="list-disc list-inside">';
-      foreach ($gejala as $key => $value) {
-        $row['gejala'] .= "<li class='overflow-hidden'>" . $value . "</li>";
+
+      $row['gejala'] = '<ul class="ml-5 list-outside list-disc">';
+      if (!empty($gejala)) {
+        foreach ($gejala as $key => $value) {
+          $row['gejala'] .= "<li class='break-words'>" . $value . "</li>";
+        }
+      };
+      $row['gejala'] .= '</ul>';
+
+      $row['penyebab'] = '<ul class="ml-5 list-outside list-disc">';
+      if (!empty($penyebab)) {
+        foreach ($penyebab as $key => $value) {
+          $row['penyebab'] .= "<li class='break-words'>" . $value . "</li>";
+        }
       }
-      $row['gejala'] .= '</ol>';
-      $row['penyebab'] = '<ol class="list-disc list-inside">';
-      foreach ($penyebab as $key => $value) {
-        $row['penyebab'] .= "<li class='overflow-hidden'>" . $value . "</li>";
+      $row['penyebab'] .= '</ul>';
+
+      $row['intervensi'] = '<ul class="ml-5 list-outside list-disc">';
+      if (!empty($intervensi)) {
+        foreach ($intervensi as $key => $value) {
+          $row['intervensi'] .= "<li class='break-words'>" . $value . "</li>";
+        }
       }
-      $row['penyebab'] .= '</ol>';
-      $row['intervensi'] = '<ol class="list-disc list-inside">';
-      foreach ($intervensi as $key => $value) {
-        $row['intervensi'] .= "<li class='overflow-hidden'>" . $value . "</li>";
-      }
-      $row['intervensi'] .= '</ol>';
+      $row['intervensi'] .= '</ul>';
+
       $row['diagnosa'] = $p->diagnosa;
+
       $row['action'] =
         '<a href="' . route('askep.penghuni', ['id' => $p->id]) . '" class="flex flex-nowrap items-center text-indigo-400 font-medium text-lg hover:text-indigo-900 transition duration-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg> <p class="pl-3">Detail</p>
+                        <i class="bi bi-pencil-fill"></i> <p class="pl-3">Edit</p>
                     </a>';
+      $row['action'] .=
+        '<a href="' . route('askep.delete', ['id' => $p->id]) . '" class="flex flex-nowrap items-center text-red-400 font-medium text-lg hover:text-red-900 transition duration-200">
+                        <i class="bi bi-trash-fill"></i> <p class="pl-3">Delete</p>
+                    </a>';
+
       $data[] = $row;
     }
 
@@ -165,5 +178,94 @@ class AsuhanKeperawatanController extends Controller
     $data['id_penghuni'] = $id_penghuni;
 
     return view('askep.detail_penghuni')->with($data);
+  }
+
+  public function tambah_askep()
+  {
+    $data['diagnosa'] = $this->AskepPenghuni->data_diagnosa();
+    $data['gejala'] = $this->AskepPenghuni->data_askep_gejala();
+    $data['intervensi'] = $this->AskepPenghuni->data_askep_intervensi();
+    $data['penyebab'] = $this->AskepPenghuni->data_askep_penyebab();
+    $data['penghuni'] = $this->Penghuni->get();
+
+    return view('askep.tambah', $data);
+  }
+
+  public function proses_tambah_askep(Request $request)
+  {
+    $id_penghuni = $request->input('penghuni');
+    $id_diagnosa = $request->input('diagnosa');
+    $gejala = $request->input('gejala');
+    $penyebab = $request->input('penyebab');
+    $intervensi = $request->input('intervensi');
+
+    $id_diagnosa_penghuni = $this->AskepPenghuni->insert_diagnosa_penghuni($id_penghuni, $id_diagnosa);
+
+    if (!empty($gejala)) {
+      $this->AskepPenghuni->insert_gejala_penghuni($id_diagnosa_penghuni, $gejala, $id_diagnosa);
+    };
+    if (!empty($intervensi)) {
+      $this->AskepPenghuni->insert_intervensi_penghuni($id_diagnosa_penghuni, $intervensi, $id_diagnosa);
+    };
+    if (!empty($penyebab)) {
+      $this->AskepPenghuni->insert_penyebab_penghuni($id_diagnosa_penghuni, $penyebab, $id_diagnosa);
+    };
+
+    return redirect(route('askep.index'));
+  }
+
+  public function form_gejala(Request $request)
+  {
+    $id_diagnosa = $request->input('id_diagnosa');
+
+    $gejala = $this->AskepPenghuni->data_askep_gejala(null, $id_diagnosa);
+    $penyebab = $this->AskepPenghuni->data_askep_penyebab(null, $id_diagnosa);
+    $intervensi = $this->AskepPenghuni->data_askep_intervensi(null, $id_diagnosa);
+
+    $data = [
+      'gejala' => $gejala,
+      'penyebab' => $penyebab,
+      'intervensi' => $intervensi,
+    ];
+
+
+    // return "<option value='" . $request->input('id_diagnosa') . "'>" . $request->input('id_diagnosa') . "</option>";
+    echo json_encode($data);
+  }
+
+  public function edit($id_diagnosa_penghuni)
+  {
+    $diagnosa = DB::table('askep_diagnosa_penghuni')
+      ->where('id', $id_diagnosa_penghuni)
+      ->pluck('id_diagnosa');
+
+    $gejala = DB::table('askep_gejala_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->pluck('id_gejala');
+
+    $penyebab = DB::table('askep_penyebab_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->pluck('id_penyebab');
+
+    $intervensi = DB::table('askep_intervensi_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->pluck('id_intervensi');
+
+    $data['json'] = json_encode([
+      'gejala' => $gejala,
+      'penyebab' => $penyebab,
+      'intervensi' => $intervensi,
+      'id_diagnosa_penghuni' => (int) $id_diagnosa_penghuni,
+      'id_diagnosa' => $diagnosa[0]
+    ]);
+
+    $data['diagnosa'] = $this->AskepPenghuni->data_diagnosa();
+    $data['penghuni'] = $this->Penghuni->get();
+
+    return view('askep.edit', $data);
+  }
+
+  public function delete()
+  {
   }
 }

@@ -35,16 +35,25 @@ tbody tr{
   @apply flex items-center h-auto text-lg w-full px-3 py-2 placeholder-gray-400 border border-gray-300 focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 mb-4 !important;
   }
 
+.select2-selection__choice__display{
+  word-wrap: break-word !important;
+  text-overflow: inherit !important;
+  white-space: normal !important;
+}
 .select2-container .selection .select2-selection .select2-selection__rendered{
   @apply text-lg !important;
   }
 
 .select2-container .selection .select2-selection .select2-selection__arrow{
-    @apply relative ml-auto !important;
+  @apply relative ml-auto !important;
 }
 
 .select2-hidden-accessible{
-    @apply hidden m-0 top-0 left-0 fixed !important;
+  @apply hidden m-0 top-0 left-0 fixed !important;
+}
+
+.dataTable.cell-align-top tbody td{
+  @apply align-top !important;
 }
 /*.dataTables_wrapper .dataTables_paginate span .paginate_button {
     @apply align-middle bg-indigo-400 rounded-lg text-white border-0 bg-none h-11 hover:bg-indigo-600 active:bg-indigo-600 !important;

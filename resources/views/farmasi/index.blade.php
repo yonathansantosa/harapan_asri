@@ -77,10 +77,14 @@
         responsive: true,
         buttons: [{
           extend: 'print',
+          orientation: 'landscape',
           exportOptions: {
-            columns: [0, 1, 2, 3]
+            columns: [0, 1, 2]
+          },
+          customize: function(doc) {
+            $(doc.document.body).find('div')
+              .css('font-size', '8pt');
           }
-
         }],
         "ajax": {
           "url": "{{ route('farmasi.data') }}",
