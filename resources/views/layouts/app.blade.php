@@ -39,7 +39,6 @@
 
   <main class="h-screen w-screen" x-data="{ sidebarOpen: false }">
     @include('layouts.navigation')
-
   </main>
   {{-- <div class="fixed bottom-0 w-full bg-white text-center">
     Dibuat oleh Teknik Informatika Universitas Katolik Soegijapranata (UNIKA Soegijapranata)

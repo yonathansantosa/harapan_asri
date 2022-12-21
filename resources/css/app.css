@@ -9,6 +9,8 @@ import "tailwindcss/utilities"; */
 @import "./../../node_modules/select2/dist/css/select2.css";
 @import './../../node_modules/datatables.net-dt/css/jquery.dataTables.min.css';
 @import './../../node_modules/datatables.net-buttons-dt/css/buttons.dataTables.min.css';
+@import './../../node_modules/datatables.net-fixedcolumns-dt/css/fixedColumns.dataTables.min.css';
+@import './../../node_modules/datatables.net-rowgroup-dt/css/rowGroup.dataTables.min.css';
 
 @tailwind base;
 @tailwind components;
@@ -33,17 +35,25 @@ tbody tr {
 
 }
 
+.select2-selection__choice__display{
+  word-wrap: break-word !important;
+  text-overflow: inherit !important;
+  white-space: normal !important;
+}
+.select2-container .selection .select2-selection .select2-selection__rendered{
+  @apply text-lg !important;
+  }
 
-.select2-container .selection .select2-selection .select2-selection__rendered {
-    @apply text-lg !important;
+.select2-container .selection .select2-selection .select2-selection__arrow{
+  @apply relative ml-auto !important;
 }
 
-.select2-container .selection .select2-selection .select2-selection__arrow {
-    @apply relative ml-auto !important;
+.select2-hidden-accessible{
+  @apply hidden m-0 top-0 left-0 fixed !important;
 }
 
-.select2-hidden-accessible {
-    @apply hidden m-0 top-0 left-0 fixed !important;
+.dataTable.cell-align-top tbody td{
+  @apply align-top !important;
 }
 
 /*.dataTables_wrapper .dataTables_paginate span .paginate_button {
