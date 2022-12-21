@@ -15,7 +15,7 @@ class RelationIdlevelRoleUsers extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->integer('id_level')->nullable()
-                ->after('username');
+                ->after('id');
 
             //default onDelete and onUpdate RESTRICT
             $table->foreign('id_level')
