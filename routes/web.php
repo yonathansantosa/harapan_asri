@@ -142,6 +142,8 @@ Route::group(['prefix' => 'farmasi', 'as' => 'farmasi.', 'middleware' => ['role:
   Route::post('/proses_edit_transaksi', [FarmasiController::class, 'proses_edit_transaksi'])->name('proses_edit_transaksi')->middleware('role:admin,farmasi');
   Route::get('/edit_obat/{id_obat}', [FarmasiController::class, 'edit_obat'])->name('edit_obat')->middleware('role:admin,farmasi');
   Route::get('/edit_transaksi/{id_history}', [FarmasiController::class, 'edit_transaksi'])->name('edit_transaksi')->middleware('role:admin,farmasi');
+  Route::get('/pindah_kepemilikan/{id_obat}', [FarmasiController::class, 'pindah_kepemilikan'])->name('pindah_kepemilikan')->middleware('role:admin,farmasi');
+  Route::post('/proses_pindah_kepemilikan', [FarmasiController::class, 'proses_pindah_kepemilikan'])->name('proses_pindah_kepemilikan')->middleware('role:admin,farmasi');
   Route::post('/transaksi_data', [FarmasiController::class, 'transaksi_data'])->name('transaksi_data');
 
   // Route::get('/', [MobilitasController::class, 'data_mobilitas_keluar'])->name('data_keluar');
