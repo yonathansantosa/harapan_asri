@@ -88,9 +88,10 @@ Route::group(['prefix' => 'askep', 'as' => 'askep.', 'middleware' => ['role:admi
   Route::get('/', [AsuhanKeperawatanController::class, 'penghuni'])->name('index');
   Route::post('/data', [AsuhanKeperawatanController::class, 'data_penghuni'])->name('data');
   Route::get('/tambah', [AsuhanKeperawatanController::class, 'tambah_askep'])->name('tambah');
-  Route::get('/delete', [AsuhanKeperawatanController::class, 'delete_askep'])->name('delete');
+  Route::get('/delete/{id_diagnosa_penghuni}', [AsuhanKeperawatanController::class, 'delete'])->name('delete');
   Route::get('/edit/{id_diagnosa_penghuni}', [AsuhanKeperawatanController::class, 'edit'])->name('edit');
   Route::post('/form-gejala', [AsuhanKeperawatanController::class, 'form_gejala'])->name('form_gejala');
+  Route::post('/proses_edit', [AsuhanKeperawatanController::class, 'proses_edit_askep'])->name('proses_edit');
   Route::post('/proses_tambah', [AsuhanKeperawatanController::class, 'proses_tambah_askep'])->name('proses_tambah');
   Route::get('/penghuni/{id}', [AsuhanKeperawatanController::class, 'askep_penghuni'])->name('penghuni');
   Route::post('/data_askep_penghuni', [AsuhanKeperawatanController::class, 'data_askep_penghuni'])->name('data_askep_penghuni');

@@ -195,10 +195,30 @@ class AskepPenghuni extends Model
       ->insertGetId([
         'id_penghuni' => $id_penghuni,
         'id_diagnosa' => $id_diagnosa,
-        'created_at' => Carbon::now()
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now()
       ]);
 
     return $id_diagnosa_penghuni;
+  }
+
+  public function update_diagnosa_penghuni($id_diagnosa_penghuni, $id_penghuni, $id_diagnosa)
+  {
+    // dd($id_diagnosa_penghuni);
+    $upd = DB::table('askep_diagnosa_penghuni')
+      ->where('id', $id_diagnosa_penghuni)
+      ->update([
+        'id_penghuni' => $id_penghuni,
+        'id_diagnosa' => $id_diagnosa,
+        'updated_at' => Carbon::now()
+      ]);
+  }
+
+  public function delete_diagnosa_penghuni($id_diagnosa_penghuni)
+  {
+    $delete = DB::table('askep_diagnosa_penghuni')
+      ->where('id', $id_diagnosa_penghuni)
+      ->delete();
   }
 
   public function insert_gejala_penghuni($id_diagnosa_penghuni, $gejalas = null, $id_diagnosa = null)
@@ -223,6 +243,40 @@ class AskepPenghuni extends Model
       ->insert($data);
   }
 
+  public function update_gejala_penghuni($id_diagnosa_penghuni, $gejalas = null, $id_diagnosa = null)
+  {
+    $data = [];
+    foreach ($gejalas as $gejala) {
+      if (!is_numeric($gejala)) {
+        $id_gejala = DB::table('askep_gejala_diagnosa')
+          ->insertGetId([
+            'id_diagnosa' => $id_diagnosa,
+            'gejala' => $gejala
+          ]);
+        $gejala = $id_gejala;
+      }
+
+      $delete = DB::table('askep_gejala_diagnosa_penghuni')
+        ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+        ->delete();
+
+      $data[] = [
+        'id_diagnosa_penghuni' => $id_diagnosa_penghuni,
+        'id_gejala' => $gejala
+      ];
+    };
+
+    $ins = DB::table('askep_gejala_diagnosa_penghuni')
+      ->insert($data);
+  }
+
+  public function delete_gejala_penghuni($id_diagnosa_penghuni)
+  {
+    $delete = DB::table('askep_gejala_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->delete();
+  }
+
   public function insert_penyebab_penghuni($id_diagnosa_penghuni, $penyebabs = null, $id_diagnosa = null)
   {
     $data = [];
@@ -245,6 +299,40 @@ class AskepPenghuni extends Model
       ->insert($data);
   }
 
+  public function update_penyebab_penghuni($id_diagnosa_penghuni, $penyebabs = null, $id_diagnosa = null)
+  {
+    $data = [];
+    foreach ($penyebabs as $penyebab) {
+      if (!is_numeric($penyebab)) {
+        $id_penyebab = DB::table('askep_penyebab_diagnosa')
+          ->insertGetId([
+            'id_diagnosa' => $id_diagnosa,
+            'penyebab' => $penyebab
+          ]);
+        $penyebab = $id_penyebab;
+      }
+
+      $delete = DB::table('askep_penyebab_diagnosa_penghuni')
+        ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+        ->delete();
+
+      $data[] = [
+        'id_diagnosa_penghuni' => $id_diagnosa_penghuni,
+        'id_penyebab' => $penyebab
+      ];
+    };
+
+    $ins = DB::table('askep_penyebab_diagnosa_penghuni')
+      ->insert($data);
+  }
+
+  public function delete_penyebab_penghuni($id_diagnosa_penghuni)
+  {
+    $delete = DB::table('askep_penyebab_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->delete();
+  }
+
   public function insert_intervensi_penghuni($id_diagnosa_penghuni, $intervensis = null, $id_diagnosa = null)
   {
     $data = [];
@@ -265,5 +353,39 @@ class AskepPenghuni extends Model
 
     $ins = DB::table('askep_intervensi_diagnosa_penghuni')
       ->insert($data);
+  }
+
+  public function update_intervensi_penghuni($id_diagnosa_penghuni, $intervensis = null, $id_diagnosa = null)
+  {
+    $data = [];
+    foreach ($intervensis as $intervensi) {
+      if (!is_numeric($intervensi)) {
+        $id_intervensi = DB::table('askep_intervensi_diagnosa')
+          ->insertGetId([
+            'id_diagnosa' => $id_diagnosa,
+            'intervensi' => $intervensi
+          ]);
+        $intervensi = $id_intervensi;
+      }
+
+      $delete = DB::table('askep_intervensi_diagnosa_penghuni')
+        ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+        ->delete();
+
+      $data[] = [
+        'id_diagnosa_penghuni' => $id_diagnosa_penghuni,
+        'id_intervensi' => $intervensi
+      ];
+    };
+
+    $ins = DB::table('askep_intervensi_diagnosa_penghuni')
+      ->insert($data);
+  }
+
+  public function delete_intervensi_penghuni($id_diagnosa_penghuni)
+  {
+    $delete = DB::table('askep_intervensi_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->delete();
   }
 }

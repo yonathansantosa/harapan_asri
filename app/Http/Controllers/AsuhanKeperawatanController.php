@@ -152,11 +152,11 @@ class AsuhanKeperawatanController extends Controller
       $row['diagnosa'] = $p->diagnosa;
 
       $row['action'] =
-        '<a href="' . route('askep.penghuni', ['id' => $p->id]) . '" class="flex flex-nowrap items-center text-indigo-400 font-medium text-lg hover:text-indigo-900 transition duration-200">
+        '<a href="' . route('askep.edit', ['id_diagnosa_penghuni' => $p->id]) . '" class="flex flex-nowrap items-center text-indigo-400 font-medium text-lg hover:text-indigo-900 transition duration-200">
                         <i class="bi bi-pencil-fill"></i> <p class="pl-3">Edit</p>
                     </a>';
       $row['action'] .=
-        '<a href="' . route('askep.delete', ['id' => $p->id]) . '" class="flex flex-nowrap items-center text-red-400 font-medium text-lg hover:text-red-900 transition duration-200">
+        '<a href="' . route('askep.delete', ['id_diagnosa_penghuni' => $p->id]) . '" class="flex flex-nowrap items-center text-red-400 font-medium text-lg hover:text-red-900 transition duration-200">
                         <i class="bi bi-trash-fill"></i> <p class="pl-3">Delete</p>
                     </a>';
 
@@ -214,6 +214,30 @@ class AsuhanKeperawatanController extends Controller
     return redirect(route('askep.index'));
   }
 
+  public function proses_edit_askep(Request $request)
+  {
+    $id_diagnosa_penghuni = $request->input('id_diagnosa_penghuni');
+    $id_penghuni = $request->input('penghuni');
+    $id_diagnosa = $request->input('diagnosa');
+    $gejala = $request->input('gejala');
+    $penyebab = $request->input('penyebab');
+    $intervensi = $request->input('intervensi');
+
+    $this->AskepPenghuni->update_diagnosa_penghuni($id_diagnosa_penghuni, $id_penghuni, $id_diagnosa);
+
+    if (!empty($gejala)) {
+      $this->AskepPenghuni->update_gejala_penghuni($id_diagnosa_penghuni, $gejala, $id_diagnosa);
+    };
+    if (!empty($intervensi)) {
+      $this->AskepPenghuni->update_intervensi_penghuni($id_diagnosa_penghuni, $intervensi, $id_diagnosa);
+    };
+    if (!empty($penyebab)) {
+      $this->AskepPenghuni->update_penyebab_penghuni($id_diagnosa_penghuni, $penyebab, $id_diagnosa);
+    };
+
+    return redirect(route('askep.index'));
+  }
+
   public function form_gejala(Request $request)
   {
     $id_diagnosa = $request->input('id_diagnosa');
@@ -255,17 +279,23 @@ class AsuhanKeperawatanController extends Controller
       'gejala' => $gejala,
       'penyebab' => $penyebab,
       'intervensi' => $intervensi,
-      'id_diagnosa_penghuni' => (int) $id_diagnosa_penghuni,
       'id_diagnosa' => $diagnosa[0]
     ]);
 
     $data['diagnosa'] = $this->AskepPenghuni->data_diagnosa();
     $data['penghuni'] = $this->Penghuni->get();
+    $data['id_diagnosa_penghuni'] = (int) $id_diagnosa_penghuni;
 
     return view('askep.edit', $data);
   }
 
-  public function delete()
+  public function delete($id_diagnosa_penghuni)
   {
+    $this->AskepPenghuni->delete_diagnosa_penghuni($id_diagnosa_penghuni);
+    $this->AskepPenghuni->delete_penyebab_penghuni($id_diagnosa_penghuni);
+    $this->AskepPenghuni->delete_gejala_penghuni($id_diagnosa_penghuni);
+    $this->AskepPenghuni->delete_intervensi_penghuni($id_diagnosa_penghuni);
+
+    return redirect(route('askep.index'));
   }
 }

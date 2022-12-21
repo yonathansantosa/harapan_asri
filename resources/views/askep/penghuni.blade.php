@@ -74,6 +74,22 @@
             columns: [0, 1, 2, 3, 4, 5, 6],
             stripHtml: false,
           },
+          title: "Asuhan Keperawatan",
+          customize: function(win) {
+            var fontSize = '9pt';
+            $(win.document.body)
+              .css('font-size', fontSize);
+            $(win.document.body).find('table')
+              .css('font-size', fontSize);
+            $(win.document.body).find('td')
+              .css('font-size', fontSize);
+            $(win.document.body).find('td')
+              .css('padding', '2pt');
+            $(win.document.body).find('td')
+              .css('line-height', 'normal');
+            $(win.document.body).find('li')
+              .css('line-height', 'normal');
+          }
         }],
         columnDefs: [{
           orderable: false,

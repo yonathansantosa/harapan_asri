@@ -20,7 +20,7 @@
             {{ Session::get('success') }}
           </div>
         @endif --}}
-        <form method="POST" class="break-word" action="{{ route('askep.proses_tambah') }}" enctype="multipart/form-data">
+        <form method="POST" class="break-word" action="{{ route('askep.proses_edit') }}" enctype="multipart/form-data">
           @csrf
           <!-- nama Input -->
           {{-- <x-label for="editnama" :value="__('Nama Penghuni')" />
@@ -29,6 +29,8 @@
             {{ Session::get('error_update.nama') }}
             <br>
           @endif --}}
+
+          <input type="hidden" name="id_diagnosa_penghuni" value="{{ $id_diagnosa_penghuni }}">
 
           <!-- Penghuni Input -->
           <x-label for="select-penghuni" :value="__('Penghuni')" />
@@ -67,7 +69,7 @@
           <p class="mt-4 mb-6 flex flex-col items-center justify-center space-y-6 text-center text-lg text-gray-500 sm:flex-row">
             <input type="submit" class="mt-6 w-full items-center rounded-md bg-indigo-400 px-4 py-4 font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600 sm:w-1/2" value="Simpan">
 
-            <a href="{{ route('penghuni.index') }}" class="w-full rounded-md border border-white px-4 py-4 text-lg font-medium text-indigo-400 transition duration-200 hover:border-red-900 hover:text-red-900 sm:ml-2 sm:w-1/2">
+            <a href="{{ route('askep.index') }}" class="w-full rounded-md border border-white px-4 py-4 text-lg font-medium text-indigo-400 transition duration-200 hover:border-red-900 hover:text-red-900 sm:ml-2 sm:w-1/2">
               Kembali
             </a>
           </p>
@@ -129,11 +131,8 @@
           });
           $("#select-gejala").html(gejalaHtml);
 
-
-          data['gejala'].forEach(element => {
-            $('#select-gejala').val(element);
-            $('#select-gejala').trigger('change');
-          });
+          $('#select-gejala').val(data['gejala']);
+          $('#select-gejala').trigger('change');
 
           penyebabHtml = ""
           $.each(arr['penyebab'], function(key, value) {
@@ -141,11 +140,19 @@
           });
           $("#select-penyebab").html(penyebabHtml);
 
+          $('#select-penyebab').val(data['penyebab']);
+          $('#select-penyebab').trigger('change');
+
           intervensiHtml = ""
           $.each(arr['intervensi'], function(key, value) {
             intervensiHtml += "<option value='" + value['id'] + "'>" + value['intervensi'] + "</option>";
           });
           $("#select-intervensi").html(intervensiHtml);
+
+          $('#select-intervensi').val(data['intervensi']);
+          $('#select-intervensi').trigger('change');
+
+
         }
       });
 
