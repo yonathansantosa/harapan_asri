@@ -20,9 +20,11 @@ class CreateHistoryObatsTable extends Migration
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->integer('stokobat')->default(0);
+            $table->unsignedInteger('id_penghuni')->nullable();
             $table->integer('deleted')->default(0);
 
             $table->foreign('id_obat')->references('id')->on('tb_obat')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('id_penghuni')->references('id')->on('penghuni')->onDelete('set null')->onUpdate('cascade');
         });
     }
 

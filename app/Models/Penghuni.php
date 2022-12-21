@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Penghuni;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Penghuni extends Model
 {
@@ -47,5 +48,11 @@ class Penghuni extends Model
 
     public static function tambah($data){
         Penghuni::insert($data);
+    }
+
+    // YDS list penguhini untuk obat
+    public static function list_penghuni(){
+        $data = Penghuni::select('id', 'no_induk', 'nama')->get();
+        return $data;
     }
 }

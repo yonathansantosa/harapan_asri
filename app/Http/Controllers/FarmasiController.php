@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Obat;
+use App\Models\Penghuni;
 use App\Models\HistoryObat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -58,6 +59,7 @@ class FarmasiController extends Controller
             '41' => '41 - Lotion/Solution',
             '81' => '81 - Tablet Dispersi',
         ];
+        $this->Penghuni = new Penghuni();
     }
 
     public function index()
@@ -136,9 +138,20 @@ class FarmasiController extends Controller
     public function tambah_transaksi($id_obat = null)
     {
         $data['obat'] = $this->Obat::daftar_obat_all();
+        // $data['penghuni'] = Penghuni::list_penghuni();
+        $data['penghuni'] = Penghuni::list_penghuni();
         $data['id_obat'] = $id_obat;
 
         return view('farmasi/tambah_transaksi', $data)->render();
+    }
+
+    public function pindah_kepemilikan($id_obat = null)
+    {
+        $data['obat'] = $this->Obat::daftar_obat_all();
+        $data['penghuni'] = Penghuni::list_penghuni();
+        $data['id_obat'] = $id_obat;
+
+        return view('farmasi/pindah_kepemilikan', $data)->render();
     }
 
     public function proses_tambah_transaksi(Request $request)
@@ -146,7 +159,23 @@ class FarmasiController extends Controller
         $data['id_obat'] = $request->input('id_obat');
         $data['stokobat'] = $request->input('stokobat');
         $data['keterangan'] = $request->input('keterangan');
+        $data['id_penghuni'] = $request->input('id_penghuni');
 
+        $this->HistoryObat->simpan($data, '');
+
+        return redirect(route('farmasi.transaksi', [$data['id_obat']]))->with('message', 'Transaksi berhasil ditambahkan');
+    }
+
+    public function proses_pindah_kepemilikan(Request $request)
+    {
+        $data['id_obat'] = $request->input('id_obat');
+        $data['stokobat'] = -$request->input('stokobat');
+        $data['keterangan'] = $request->input('keterangan');
+        $data['id_penghuni'] = $request->input('id_penghuni_1');
+
+        $this->HistoryObat->simpan($data, '');
+        $data['stokobat'] = $request->input('stokobat');
+        $data['id_penghuni'] = $request->input('id_penghuni_2');
         $this->HistoryObat->simpan($data, '');
 
         return redirect(route('farmasi.transaksi', [$data['id_obat']]))->with('message', 'Transaksi berhasil ditambahkan');
@@ -203,6 +232,7 @@ class FarmasiController extends Controller
             2 => 'stokobat',
             3 => 'created_at',
             4 => 'action',
+            5 => 'penghuni',
         );
 
         $id_obat = $request->input('id');
@@ -226,6 +256,7 @@ class FarmasiController extends Controller
             $row['keterangan'] = $p->keterangan;
             $row['stock'] = $p->stokobat;
             $row['waktu'] = $p->created_at->format('d M Y - h:i');
+            $row['penghuni'] = $p->id_penghuni;
             $row['action'] =
                 '<a href="' . route('farmasi.edit_transaksi', [$p->id]) . '" class="text-indigo-400 font-medium text-lg hover:border-indigo-900 hover:border-b-2 hover:pb-1 hover:text-indigo-900 transition duration-200" id="edit" data-id="' . $p->id . '">Edit</a>
                 <span class="border-l-2 mx-2 border-slate-400"></span>
