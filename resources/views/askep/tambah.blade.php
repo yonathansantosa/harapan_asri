@@ -85,15 +85,16 @@
             <x-label for="select-intervensi" :value="__('Intervensi')" />
             <select id="select-intervensi" name="intervensi[]" multiple="multiple">
             </select>
+            {{-- implementasi --}}
+            <x-horizontal></x-horizontal>
+            <div id="implementasi">
+              <x-label for="implementasi" :value="__('<b>Implementasi</b>')" />
+            </div>
+            <a id="tambah-implementasi" href="#" class="my-4 w-full rounded-md border border-white px-4 py-4 text-lg font-medium text-indigo-400 transition duration-200 hover:border-red-900 hover:text-red-900 sm:ml-2 sm:w-1/2">
+              Tambah Form Implementasi
+            </a>
           </div>
 
-          <x-horizontal></x-horizontal>
-          <div id="evaluasi">
-            <x-label for="eval" :value="__('<b>Evaluasi</b>')" />
-          </div>
-          <a id="tambah-evaluasi" href="#" class="my-4 w-full rounded-md border border-white px-4 py-4 text-lg font-medium text-indigo-400 transition duration-200 hover:border-red-900 hover:text-red-900 sm:ml-2 sm:w-1/2">
-            Tambah Form Evaluasi
-          </a>
           <!-- Button Input -->
           <p class="mt-4 mb-6 flex flex-col items-center justify-center space-y-6 text-center text-lg text-gray-500 sm:flex-row">
             <input type="submit" class="mt-6 w-full items-center rounded-md bg-indigo-400 px-4 py-4 font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600 sm:w-1/2" value="Simpan">
@@ -109,6 +110,8 @@
   </div>
 
   <script>
+    var implementasiHtml = "";
+
     function previewFile(input, change) {
       var file = $("#edittambahFoto").get(0).files[0];
       if (file) {
@@ -119,6 +122,13 @@
         reader.readAsDataURL(file);
       }
     }
+
+
+    function deleteImplementasi(i) {
+      $(`#label-implementasi${i}`).remove();
+      $(`#implementasi${i}`).remove();
+    }
+
 
     $(document).ready(function() {
       $('#select-diagnosa').select2({
@@ -138,14 +148,12 @@
       $('#select-id_pj_1').select2();
       $('#select-id_pj_2').select2();
       $('#select-id_pj_3').select2();
-    });
 
-    $(document).ready(function() {
       $("#select-diagnosa").change(function() {
         id_diagnosa = $(this).val();
-        console.log(id_diagnosa);
 
         $.ajax({
+          async: false,
           "url": "{{ route('askep.form_gejala') }}",
           "type": "POST",
           "data": {
@@ -153,7 +161,6 @@
             id_diagnosa: id_diagnosa
           },
           success: function(result) {
-            console.log(result);
             arr = $.parseJSON(result); //convert to javascript array
 
             gejalaHtml = ""
@@ -173,66 +180,99 @@
               intervensiHtml += "<option value='" + value['id'] + "'>" + value['intervensi'] + "</option>";
             });
             $("#select-intervensi").html(intervensiHtml);
+
+            $.each(arr['implementasi'], function(key, value) {
+              implementasiHtml += "<option value='" + value['id'] + "'>" + value['implementasi'] + "</option>";
+            });
           }
         });
         $('#options').removeClass("hidden");
       });
 
-
       if ("{{ old('diagnosa') }}" != "") {
         $('#select-diagnosa').trigger('change');
       };
 
-    });
-
-    $(document).ready(function() {
-      var totalEvaluasi = 0;
-      $('#tambah-evaluasi').on('click', (e) => {
+      var totalImplementasi = 0;
+      $('#tambah-implementasi').on('click', (e) => {
         e.preventDefault();
-        totalEvaluasi += 1;
-        var evaluasi = $('#evaluasi').append(`
-          <div class="flex items-stretch content-center w-full">
-              <x-input name="eval${totalEvaluasi}" type="text" id="eval${totalEvaluasi}"/>
-              <a id="hapus-evaluasi-${totalEvaluasi}" 
-                  href="#" 
-                  class="mb-4 flex items-center rounded-md border border-red px-4 text-lg font-medium text-white bg-red-400 transition duration-200 hover:border-red-900 hover:bg-red-900 sm:ml-2"
-                  onClick="deleteEval(${totalEvaluasi})"
-              >
-                <i class="bi bi-trash-fill"></i>
-              </a>
+        totalImplementasi += 1;
+        var implementasi = $('#implementasi').append(`
+          <x-label id="label-implementasi${totalImplementasi}" for="select-implementasi${totalImplementasi}" :value="__('Implementasi ${totalImplementasi}')"/>
+          <div class="w-full flex items-stretch content-center" id="implementasi${totalImplementasi}">
+            <select id="select-implementasi${totalImplementasi}" name="implementasi${totalImplementasi}">
+              ${implementasiHtml}
+            </select>
+            <a id="hapus-implementasi-${totalImplementasi}" 
+                href="#" 
+                class="mb-4 flex items-center rounded-md border border-red px-4 text-lg font-medium text-white bg-red-400 transition duration-200 hover:border-red-900 hover:bg-red-900 sm:ml-2"
+                onClick="deleteImplementasi(${totalImplementasi})"
+            >
+              <i class="bi bi-trash-fill"></i>
+            </a>
           </div>
         `);
+        $(`#select-implementasi${totalImplementasi}`).select2({
+          tags: true
+        });
       })
 
-      // console.log("{!! json_encode(session()->get('eval_key')) !!}");
-      var oldEval = $.parseJSON(`{!! json_encode(session()->get('eval_key')) !!}`);
-      var oldData = $.parseJSON(`{!! json_encode(session()->getOldInput()) !!}`);
-      if (oldEval) {
-        oldEval.forEach(element => {
-          console.log(oldData);
-          console.log(element);
-          console.log(oldData[element]);
-          totalEvaluasi += 1;
-          var evaluasi = $('#evaluasi').append(`
-          <div class="flex items-stretch content-center w-full">
-              <x-input name="eval${totalEvaluasi}" type="text" id="eval${totalEvaluasi}" value="${oldData[element]}"/>
-              <a id="hapus-evaluasi-${totalEvaluasi}" 
-                  href="#" 
-                  class="mb-4 flex items-center rounded-md border border-red px-4 text-lg font-medium text-white bg-red-400 transition duration-200 hover:border-red-900 hover:bg-red-900 sm:ml-2"
-                  onClick="deleteEval(${totalEvaluasi})"
-              >
-                <i class="bi bi-trash-fill"></i>
-              </a>
-          </div>
-        `);
-        });
-      }
-    })
+      // <x-input name="implementasi${totalImplementasi}" type="text" id="implementasi${totalImplementasi}"/>
 
-    function deleteEval(i) {
-      $(`#label-eval${i}`).remove();
-      $(`#eval${i}`).remove();
-      $(`#hapus-evaluasi-${i}`).remove()
-    }
+      // console.log("{!! json_encode(session()->get('implementasi_key')) !!}");
+
+      var oldKey = $.parseJSON(`{!! json_encode(session()->get('implementasi_key')) !!}`);
+      var oldData = $.parseJSON(`{!! json_encode(session()->getOldInput()) !!}`);
+      console.log(oldData);
+      console.log(oldKey);
+
+      if (oldData) {
+        if (oldData['gejala']) {
+          $('#select-gejala').val(oldData['gejala']);
+          $('#select-gejala').trigger('change');
+        }
+        if (oldData['penyebab']) {
+          $('#select-penyebab').val(oldData['penyebab']);
+          $('#select-penyebab').trigger('change');
+        }
+        if (oldData['intervensi']) {
+          $('#select-intervensi').val(oldData['intervensi']);
+          $('#select-intervensi').trigger('change');
+        }
+        if (oldKey) {
+          oldKey.forEach(element => {
+            totalImplementasi += 1;
+            var implementasi = $('#implementasi').append(`
+              <x-label id="label-implementasi${totalImplementasi}" for="select-implementasi${totalImplementasi}" :value="__('Implementasi ${totalImplementasi}')"/>
+              <div class="w-full flex items-stretch content-center" id="implementasi${totalImplementasi}">
+                  <select id="select-implementasi${totalImplementasi}" name="implementasi${totalImplementasi}">
+                    ${implementasiHtml}
+                  </select>
+                  <a id="hapus-implementasi-${totalImplementasi}" 
+                      href="#" 
+                      class="mb-4 flex items-center rounded-md border border-red px-4 text-lg font-medium text-white bg-red-400 transition duration-200 hover:border-red-900 hover:bg-red-900 sm:ml-2"
+                      onClick="deleteImplementasi(${totalImplementasi})"
+                    >
+                      <i class="bi bi-trash-fill"></i>
+                  </a>
+              </div>
+            `);
+            $(`#select-implementasi${totalImplementasi}`).select2({
+              tags: true
+            });
+            if (!$.isNumeric(oldData[element])) {
+              $(`#select-implementasi${totalImplementasi}`).append(`
+                <option value="${oldData[element]}">${oldData[element]}</option>
+              `);
+            }
+            $(`#select-implementasi${totalImplementasi}`).val(oldData[element]);
+            $(`#select-implementasi${totalImplementasi}`).trigger('change');
+
+          });
+        }
+      }
+
+
+    })
   </script>
 </x-app-layout>

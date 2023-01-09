@@ -162,8 +162,9 @@ class AskepPenghuni extends Model
   {
     $data = DB::table('askep_gejala_diagnosa_penghuni')
       ->join('askep_gejala_diagnosa', 'askep_gejala_diagnosa_penghuni.id_gejala', '=', 'askep_gejala_diagnosa.id')
+      ->join('users', 'users.id', '=', 'askep_gejala_diagnosa_penghuni.id_pegawai')
       ->where('askep_gejala_diagnosa_penghuni.id_diagnosa_penghuni', $id_diagnosa_penghuni)
-      ->get();
+      ->get(['askep_gejala_diagnosa_penghuni.*', 'users.nama', 'askep_gejala_diagnosa.*']);
 
     return $data;
   }
@@ -192,8 +193,9 @@ class AskepPenghuni extends Model
   {
     $data = DB::table('askep_penyebab_diagnosa_penghuni')
       ->join('askep_penyebab_diagnosa', 'askep_penyebab_diagnosa_penghuni.id_penyebab', '=', 'askep_penyebab_diagnosa.id')
+      ->join('users', 'users.id', '=', 'askep_penyebab_diagnosa_penghuni.id_pegawai')
       ->where('askep_penyebab_diagnosa_penghuni.id_diagnosa_penghuni', $id_diagnosa_penghuni)
-      ->get();
+      ->get(['askep_penyebab_diagnosa_penghuni.*', 'users.nama', 'askep_penyebab_diagnosa.*']);
 
     return $data;
   }
@@ -218,12 +220,27 @@ class AskepPenghuni extends Model
     return $data;
   }
 
+  public static function data_askep_implementasi($id_implementasi = null)
+  {
+    if ($id_implementasi) {
+      $data = DB::table('askep_implementasi')
+        ->whereIn('id', $id_implementasi)
+        ->pluck('implementasi');
+    } else {
+      $data = DB::table('askep_implementasi')
+        ->get();
+    }
+
+    return $data;
+  }
+
   public static function detail_intervensi_penghuni($id_diagnosa_penghuni)
   {
     $data = DB::table('askep_intervensi_diagnosa_penghuni')
       ->join('askep_intervensi_diagnosa', 'askep_intervensi_diagnosa_penghuni.id_intervensi', '=', 'askep_intervensi_diagnosa.id')
+      ->join('users', 'users.id', '=', 'askep_intervensi_diagnosa_penghuni.id_pegawai')
       ->where('askep_intervensi_diagnosa_penghuni.id_diagnosa_penghuni', $id_diagnosa_penghuni)
-      ->get();
+      ->get(['askep_intervensi_diagnosa_penghuni.*', 'users.nama', 'askep_intervensi_diagnosa.*']);
 
     return $data;
   }
@@ -470,6 +487,84 @@ class AskepPenghuni extends Model
   public static function delete_intervensi_penghuni($id_diagnosa_penghuni)
   {
     $delete = DB::table('askep_intervensi_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->delete();
+  }
+
+  public static function insert_implementasi_penghuni($id_diagnosa_penghuni, $implementasis = null, $id_pegawai = null)
+  {
+    $data = [];
+    foreach ($implementasis as $implementasi) {
+      if (!is_numeric($implementasi)) {
+        $id_implementasi = DB::table('askep_implementasi')
+          ->insertGetId([
+            'implementasi' => $implementasi
+          ]);
+        $implementasi = $id_implementasi;
+      }
+      $data[] = [
+        'id_diagnosa_penghuni' => $id_diagnosa_penghuni,
+        'id_implementasi' => $implementasi,
+        'id_pegawai' => $id_pegawai,
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now()
+      ];
+    };
+
+    $ins = DB::table('askep_implementasi_diagnosa_penghuni')
+      ->insert($data);
+  }
+
+  public static function update_implementasi_penghuni($id_diagnosa_penghuni, $implementasis = null, $old_data = [], $id_pegawai = null)
+  {
+    $data = [];
+
+    foreach ($implementasis as $implementasi) {
+      if (!is_numeric($implementasi)) {
+        $id_implementasi = DB::table('askep_implementasi')
+          ->insertGetId([
+            'implementasi' => $implementasi
+          ]);
+        $implementasi = $id_implementasi;
+      }
+
+      if (!in_array($implementasi, $old_data)) {
+        $data[] = [
+          'id_diagnosa_penghuni' => $id_diagnosa_penghuni,
+          'id_implementasi' => $implementasi,
+          'id_pegawai' => $id_pegawai,
+          'created_at' => Carbon::now(),
+          'updated_at' => Carbon::now()
+        ];
+      }
+    };
+
+    $ins = DB::table('askep_implementasi_diagnosa_penghuni')
+      ->upsert($data, ['id_diagnosa_penghuni', 'id_implementasi', 'id_pegawai'], ['updated_at']);
+
+    foreach ($old_data as $old) {
+      if (!in_array($old, $implementasis)) {
+        $delete = DB::table('askep_implementasi_diagnosa_penghuni')
+          ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+          ->where('id_implementasi', $old)
+          ->delete();
+      }
+    }
+  }
+
+  public static function detail_implementasi_penghuni($id_diagnosa_penghuni)
+  {
+    $data = DB::table('askep_implementasi_diagnosa_penghuni')
+      ->join('askep_implementasi', 'askep_implementasi_diagnosa_penghuni.id_implementasi', '=', 'askep_implementasi.id')
+      ->join('users', 'users.id', '=', 'askep_implementasi_diagnosa_penghuni.id_pegawai')
+      ->where('askep_implementasi_diagnosa_penghuni.id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->get(['askep_implementasi_diagnosa_penghuni.*', 'users.nama', 'askep_implementasi.*']);
+    return $data;
+  }
+
+  public static function delete_implementasi_penghuni($id_diagnosa_penghuni)
+  {
+    $delete = DB::table('askep_implementasi_diagnosa_penghuni')
       ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
       ->delete();
   }
