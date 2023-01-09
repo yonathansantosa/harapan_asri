@@ -31,23 +31,31 @@
           @endif --}}
 
           <input type="hidden" name="id_diagnosa_penghuni" value="{{ $id_diagnosa_penghuni }}">
+          <input type="hidden" name="old_data" value="{{ $json }}">
 
           <!-- Penghuni Input -->
-          <x-label for="select-penghuni" :value="__('Penghuni')" />
-          <select id="select-penghuni" name="penghuni">
+          <x-label for="select-penghuni" :value="__('Penghuni')" :invalid="$errors->has('penghuni')" />
+          <x-select-2 id="select-penghuni" name="penghuni" placeholder="Pilih Penghuni" :invalid="$errors->has('penghuni')">
             @foreach ($penghuni as $row)
-              <option value="{{ $row->id }}">{{ $row->nama }}</option>
+              <option value="{{ $row->id }}" {{ old('penghuni') == $row->id ? 'selected' : '' }}>{{ $row->nama }}</option>
             @endforeach
-          </select>
+          </x-select-2>
 
           {{-- Diagnosa --}}
-          <x-label for="select-diagnosa" :value="__('Diagnosa')" />
-          <select id="select-diagnosa" name="diagnosa">
-            <option value="NULL" selected="selected">Pilih Diagnosa</option>
+          <x-label for="select-diagnosa" :value="__('Diagnosa')" :invalid="$errors->has('diagnosa')" />
+          <x-select-2 id="select-diagnosa" name="diagnosa" placeholder="Pilih Diagnosa" :invalid="$errors->has('diagnosa')">
             @foreach ($diagnosa as $row)
-              <option value="{{ $row->id }}">{{ $row->diagnosa }}</option>
+              <option value="{{ $row->id }}" {{ old('diagnosa') == $row->id ? 'selected' : '' }}>{{ $row->diagnosa }}</option>
             @endforeach
-          </select>
+          </x-select-2>
+
+          <!-- Pegawai Input -->
+          <x-label for="select-pegawai" :value="__('Penambah/Pengubah Data')" :invalid="$errors->has('pegawai')" required />
+          <x-select-2 id="select-pegawai" name="pegawai" placeholder="Pilih Pegawai" :invalid="$errors->has('pegawai')">
+            @foreach ($pegawai as $row)
+              <option value="{{ $row->id }}" {{ old('pegawai') == $row->id ? 'selected' : '' }}>{{ $row->nama }}</option>
+            @endforeach
+          </x-select-2>
 
           <div id="options" class="hidden">
             {{-- Gejala --}}
@@ -55,11 +63,11 @@
             <select id="select-gejala" name="gejala[]" multiple="multiple">
             </select>
             {{-- penyebab --}}
-            <x-label for="select-penyebab" :value="__('penyebab')" />
+            <x-label for="select-penyebab" :value="__('Penyebab')" />
             <select id="select-penyebab" name="penyebab[]" multiple="multiple">
             </select>
             {{-- intervensi --}}
-            <x-label for="select-intervensi" :value="__('intervensi')" />
+            <x-label for="select-intervensi" :value="__('Intervensi')" />
             <select id="select-intervensi" name="intervensi[]" multiple="multiple">
             </select>
           </div>
@@ -69,7 +77,7 @@
           <p class="mt-4 mb-6 flex flex-col items-center justify-center space-y-6 text-center text-lg text-gray-500 sm:flex-row">
             <input type="submit" class="mt-6 w-full items-center rounded-md bg-indigo-400 px-4 py-4 font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600 sm:w-1/2" value="Simpan">
 
-            <a href="{{ route('askep.index') }}" class="w-full rounded-md border border-white px-4 py-4 text-lg font-medium text-indigo-400 transition duration-200 hover:border-red-900 hover:text-red-900 sm:ml-2 sm:w-1/2">
+            <a href="{{ $prev }}" class="w-full rounded-md border border-white px-4 py-4 text-lg font-medium text-indigo-400 transition duration-200 hover:border-red-900 hover:text-red-900 sm:ml-2 sm:w-1/2">
               Kembali
             </a>
           </p>
@@ -93,7 +101,6 @@
 
     $(document).ready(function() {
       $('#select-diagnosa').select2({
-        placeholder: 'Pilih Diagnosa',
         tags: true
       });
       $('#select-gejala').select2({
@@ -106,12 +113,18 @@
         tags: true
       });
       $('#select-penghuni').select2();
+      $('#select-pegawai').select2();
     });
 
     $(document).ready(function() {
       data = $.parseJSON('{!! $json !!}');
       $('#select-diagnosa').val(data['id_diagnosa']);
       $('#select-diagnosa').trigger('change');
+      $('#select-diagnosa').prop("disabled", true);
+
+      $('#select-penghuni').val(data['id_penghuni']);
+      $('#select-penghuni').trigger('change');
+      $('#select-penghuni').prop("disabled", true);
 
       id_diagnosa = data['id_diagnosa'];
 
