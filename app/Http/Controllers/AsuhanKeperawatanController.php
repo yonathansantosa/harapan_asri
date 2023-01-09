@@ -19,7 +19,7 @@ class AsuhanKeperawatanController extends Controller
 
   public function penghuni()
   {
-    // $data['user'] = $this->Penghuni->daftar_penghuni();
+    // $data['user'] = Penghuni::daftar_penghuni();
     return view('askep.penghuni');
   }
 
@@ -27,7 +27,7 @@ class AsuhanKeperawatanController extends Controller
   {
     $data['askep'] = AskepPenghuni::data_askep_penghuni($id_askep);
     $data['id_penghuni'] = $data['askep']->id_penghuni;
-    $data['penghuni'] = $this->Penghuni->detail_penghuni($data['id_penghuni']);
+    $data['penghuni'] = Penghuni::detail_penghuni($data['id_penghuni']);
 
     $data['diagnosa'] = AskepPenghuni::data_diagnosa([$data['askep']->id_diagnosa]);
     $data['gejala'] = AskepPenghuni::detail_gejala_penghuni($data['askep']->id);
@@ -148,8 +148,8 @@ class AsuhanKeperawatanController extends Controller
     $data['gejala'] = AskepPenghuni::data_askep_gejala();
     $data['intervensi'] = AskepPenghuni::data_askep_intervensi();
     $data['penyebab'] = AskepPenghuni::data_askep_penyebab();
-    $data['penghuni'] = $this->Penghuni->get();
-    $data['pegawai'] = $this->User->get_user();
+    $data['penghuni'] = Penghuni::get();
+    $data['pegawai'] = User::get_user();
 
     return view('askep.tambah', $data);
   }
@@ -295,9 +295,9 @@ class AsuhanKeperawatanController extends Controller
       'id_diagnosa' => $diagnosa->id_diagnosa
     ]);
 
-    $data['pegawai'] = $this->User->get_user();
+    $data['pegawai'] = User::get_user();
     $data['diagnosa'] = AskepPenghuni::data_diagnosa();
-    $data['penghuni'] = $this->Penghuni->get();
+    $data['penghuni'] = Penghuni::get();
     $data['id_diagnosa_penghuni'] = (int) $id_diagnosa_penghuni;
     $data['prev'] = $index ? route('askep.index') : route('askep.detail', ['id_askep' => $id_diagnosa_penghuni]);
 

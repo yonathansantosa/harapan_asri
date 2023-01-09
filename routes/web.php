@@ -108,7 +108,7 @@ Route::group(['prefix' => 'rekmed', 'as' => 'rekmed.', 'middleware' => ['role:ad
   Route::get('detail_medis_chart/{id}/{data}/{from_date}/{until_date}', [RekamMedisController::class, 'detail_medis_chart'])->name('detail_medis_chart');
 
   // Route::get('hapus_mcu/{id}/{data}/{id_penghuni}', [UserController::class, 'hapus_mcu'])->name('hapus')->middleware('role:admin,perawat,assisten');
-  Route::get('hapus_mcu/{id}/{data}/{id_penghuni}', [RekamMedisController::class, 'hapus_mcu'])->name('hapus')->middleware('role:admin,perawat,assisten');
+  Route::post('hapus_mcu', [RekamMedisController::class, 'hapus_mcu'])->name('hapus')->middleware('role:admin,perawat,assisten');
   Route::get('/tambah/{bagian}/{id}', [RekamMedisController::class, 'tambah_mcu'])->name('tambah')->middleware('role:admin,perawat,assisten');
   Route::post('simpan_mcu', [RekamMedisController::class, 'simpan_mcu'])->name('simpan')->middleware('role:admin,perawat,assisten');
 });
