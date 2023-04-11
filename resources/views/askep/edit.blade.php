@@ -55,15 +55,16 @@
             <select id="select-gejala" name="gejala[]" multiple="multiple">
             </select>
             {{-- penyebab --}}
-            <x-label for="select-penyebab" :value="__('penyebab')" />
+            <x-label for="select-penyebab" :value="__('Penyebab')" />
             <select id="select-penyebab" name="penyebab[]" multiple="multiple">
             </select>
             {{-- intervensi --}}
-            <x-label for="select-intervensi" :value="__('intervensi')" />
+            <x-label for="select-intervensi" :value="__('Intervensi')" />
             <select id="select-intervensi" name="intervensi[]" multiple="multiple">
             </select>
           </div>
 
+          
 
           <!-- Button Input -->
           <p class="mt-4 mb-6 flex flex-col items-center justify-center space-y-6 text-center text-lg text-gray-500 sm:flex-row">
@@ -116,7 +117,7 @@
       id_diagnosa = data['id_diagnosa'];
 
       $.ajax({
-        "url": "{{ route('askep.form_gejala') }}",
+        "url": "{{ route('askep.form_askep') }}",
         "type": "POST",
         "data": {
           _token: "{{ csrf_token() }}",
@@ -152,7 +153,7 @@
           $('#select-intervensi').val(data['intervensi']);
           $('#select-intervensi').trigger('change');
 
-
+          
         }
       });
 

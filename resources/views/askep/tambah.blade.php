@@ -38,6 +38,14 @@
             @endforeach
           </select>
 
+          <!-- Pembuat Input -->
+          <x-label for="select-pembuat" :value="__('Pembuat Laporan')" />
+          <select id="select-pembuat" name="pembuat">
+            @foreach ($user as $row)
+              <option value="{{ $row->id }}">{{ $row->nama }}</option>
+            @endforeach
+          </select>
+
           {{-- Diagnosa --}}
           <x-label for="select-diagnosa" :value="__('Diagnosa')" />
           <select id="select-diagnosa" name="diagnosa">
@@ -53,11 +61,11 @@
             <select id="select-gejala" name="gejala[]" multiple="multiple">
             </select>
             {{-- penyebab --}}
-            <x-label for="select-penyebab" :value="__('penyebab')" />
+            <x-label for="select-penyebab" :value="__('Penyebab')" />
             <select id="select-penyebab" name="penyebab[]" multiple="multiple">
             </select>
             {{-- intervensi --}}
-            <x-label for="select-intervensi" :value="__('intervensi')" />
+            <x-label for="select-intervensi" :value="__('Intervensi')" />
             <select id="select-intervensi" name="intervensi[]" multiple="multiple">
             </select>
           </div>
@@ -104,6 +112,7 @@
         tags: true
       });
       $('#select-penghuni').select2();
+      $('#select-pembuat').select2();
     });
 
     $(document).ready(function() {
@@ -112,7 +121,7 @@
         console.log(id_diagnosa);
 
         $.ajax({
-          "url": "{{ route('askep.form_gejala') }}",
+          "url": "{{ route('askep.form_askep') }}",
           "type": "POST",
           "data": {
             _token: "{{ csrf_token() }}",
