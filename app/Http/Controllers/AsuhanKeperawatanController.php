@@ -19,7 +19,7 @@ class AsuhanKeperawatanController extends Controller
 
   public function penghuni()
   {
-    // $data['user'] = $this->Penghuni->daftar_penghuni();
+    // $data['user'] = Penghuni::daftar_penghuni();
     return view('askep.penghuni');
   }
 
@@ -43,16 +43,16 @@ class AsuhanKeperawatanController extends Controller
     $dir = $request->input('order.0.dir');
     $id_penghuni = $request->input(('id_penghuni'));
 
-    $totalData = $this->AskepPenghuni->data_askep_count();
+    $totalData = AskepPenghuni::data_askep_count();
     $totalFiltered = $totalData;
 
     // dd($limit);
 
     if (empty($request->input('search.value'))) {
-      $askep_penghuni = $this->AskepPenghuni->data_askep('', $start, $limit, $order, $dir);
+      $askep_penghuni = AskepPenghuni::data_askep('', $start, $limit, $order, $dir);
     } else {
       $search = $request->input('search.value');
-      $askep_penghuni = $this->AskepPenghuni->data_askep($search, $start, $limit, $order, $dir);
+      $askep_penghuni = AskepPenghuni::data_askep($search, $start, $limit, $order, $dir);
     }
 
     // dd($askep_penghuni);
@@ -61,9 +61,9 @@ class AsuhanKeperawatanController extends Controller
     foreach ($askep_penghuni as $key => $p) {
       $row['id'] = $start + $key + 1;
       $row['penghuni'] = $p->nama;
-      $gejala = $p->id_gejalas != null ? $this->AskepPenghuni->data_askep_gejala(explode(',', $p->id_gejalas)) : [];
-      $intervensi = $p->id_intervensis != null ? $this->AskepPenghuni->data_askep_intervensi(explode(',', $p->id_intervensis)) : [];
-      $penyebab = $p->id_penyebabs != null ? $this->AskepPenghuni->data_askep_penyebab(explode(',', $p->id_penyebabs)) : [];
+      $gejala = $p->id_gejalas != null ? AskepPenghuni::data_askep_gejala(explode(',', $p->id_gejalas)) : [];
+      $intervensi = $p->id_intervensis != null ? AskepPenghuni::data_askep_intervensi(explode(',', $p->id_intervensis)) : [];
+      $penyebab = $p->id_penyebabs != null ? AskepPenghuni::data_askep_penyebab(explode(',', $p->id_penyebabs)) : [];
       $row['timestamp'] = $p->created_at;
 
       $row['gejala'] = '<ul class="ml-5 list-outside list-disc">';
@@ -152,22 +152,47 @@ class AsuhanKeperawatanController extends Controller
 
   public function proses_tambah_askep(Request $request)
   {
-    $id_penghuni = $request->input('penghuni');
-    $id_diagnosa = $request->input('diagnosa');
+    $id_penghuni = $request->input('penghuni') ?? null;
+    $id_pegawai = $request->input('pegawai') ?? null;
+    $id_diagnosa = $request->input('diagnosa') ?? null;
+    $id_pj_1 = $request->input('id_pj_1') ?? null;
+    $id_pj_2 = $request->input('id_pj_2') ?? null;
+    $id_pj_3 = $request->input('id_pj_3') ?? null;
+
+    $implementasi = [];
+    $implementasi_key = [];
+    foreach ($request->except(['_token', 'penghuni', 'pegawai', 'diagnosa', 'id_pj_1', 'id_pj_2', 'id_pj_3', 'gejala', 'penyebab', 'intervensi']) as $id => $value) {
+      if ($value) {
+        $implementasi[$id] = $value;
+        $implementasi_key[] = $id;
+      }
+    }
+
+    $request->session()->flash('implementasi_key', $implementasi_key);
+
+    $validated = $request->validate([
+      'penghuni' => 'required',
+      'pegawai' => 'required',
+      'diagnosa' => 'required',
+    ]);
+
     $gejala = $request->input('gejala');
     $penyebab = $request->input('penyebab');
     $intervensi = $request->input('intervensi');
 
-    $id_diagnosa_penghuni = $this->AskepPenghuni->insert_diagnosa_penghuni($id_penghuni, $id_diagnosa);
+    $id_diagnosa_penghuni = AskepPenghuni::insert_diagnosa_penghuni($id_penghuni, $id_diagnosa, $id_pegawai, $id_pj_1, $id_pj_2, $id_pj_3);
 
+    if (!empty($implementasi)) {
+      AskepPenghuni::insert_implementasi_penghuni($id_diagnosa_penghuni, $implementasi, $id_pegawai);
+    }
     if (!empty($gejala)) {
-      $this->AskepPenghuni->insert_gejala_penghuni($id_diagnosa_penghuni, $gejala, $id_diagnosa);
+      AskepPenghuni::insert_gejala_penghuni($id_diagnosa_penghuni, $gejala, $id_diagnosa, $id_pegawai);
     };
     if (!empty($intervensi)) {
-      $this->AskepPenghuni->insert_intervensi_penghuni($id_diagnosa_penghuni, $intervensi, $id_diagnosa);
+      AskepPenghuni::insert_intervensi_penghuni($id_diagnosa_penghuni, $intervensi, $id_diagnosa, $id_pegawai);
     };
     if (!empty($penyebab)) {
-      $this->AskepPenghuni->insert_penyebab_penghuni($id_diagnosa_penghuni, $penyebab, $id_diagnosa);
+      AskepPenghuni::insert_penyebab_penghuni($id_diagnosa_penghuni, $penyebab, $id_diagnosa, $id_pegawai);
     };
 
     return redirect(route('askep.index'));
@@ -175,24 +200,40 @@ class AsuhanKeperawatanController extends Controller
 
   public function proses_edit_askep(Request $request)
   {
+    $old_data = json_decode($request->input('old_data'));
     $id_diagnosa_penghuni = $request->input('id_diagnosa_penghuni');
-    $id_penghuni = $request->input('penghuni');
-    $id_diagnosa = $request->input('diagnosa');
-    $gejala = $request->input('gejala');
-    $penyebab = $request->input('penyebab');
-    $intervensi = $request->input('intervensi');
+    $id_penghuni = $old_data->id_penghuni;
+    $id_diagnosa = $old_data->id_diagnosa;
+    $id_pegawai = $request->input('pegawai');
+    $gejala = $request->input('gejala') ?? [];
+    $penyebab = $request->input('penyebab') ?? [];
+    $intervensi = $request->input('intervensi') ?? [];
+    $id_pj_1 = $request->input('id_pj_1') ?? null;
+    $id_pj_2 = $request->input('id_pj_2') ?? null;
+    $id_pj_3 = $request->input('id_pj_3') ?? null;
 
-    $this->AskepPenghuni->update_diagnosa_penghuni($id_diagnosa_penghuni, $id_penghuni, $id_diagnosa);
+    $implementasi = [];
+    $implementasi_key = [];
 
-    if (!empty($gejala)) {
-      $this->AskepPenghuni->update_gejala_penghuni($id_diagnosa_penghuni, $gejala, $id_diagnosa);
-    };
-    if (!empty($intervensi)) {
-      $this->AskepPenghuni->update_intervensi_penghuni($id_diagnosa_penghuni, $intervensi, $id_diagnosa);
-    };
-    if (!empty($penyebab)) {
-      $this->AskepPenghuni->update_penyebab_penghuni($id_diagnosa_penghuni, $penyebab, $id_diagnosa);
-    };
+    // dd($penyebab);
+    foreach ($request->except(['_token', 'id_diagnosa_penghuni', 'pegawai', 'old_data', 'id_pj_1', 'id_pj_2', 'id_pj_3', 'gejala', 'penyebab', 'intervensi']) as $id => $value) {
+      if ($value) {
+        $implementasi[$id] = $value;
+        $implementasi_key[] = $id;
+      }
+    }
+
+    $request->session()->flash('implementasi_key', $implementasi_key);
+
+    $validated = $request->validate([
+      'pegawai' => 'required',
+    ]);
+
+    // AskepPenghuni::update_diagnosa_penghuni($id_diagnosa_penghuni, $id_penghuni, $id_diagnosa);
+    AskepPenghuni::update_gejala_penghuni($id_diagnosa_penghuni, $gejala, $id_diagnosa, $old_data->gejala, $id_pegawai);
+    AskepPenghuni::update_intervensi_penghuni($id_diagnosa_penghuni, $intervensi, $id_diagnosa, $old_data->intervensi, $id_pegawai);
+    AskepPenghuni::update_penyebab_penghuni($id_diagnosa_penghuni, $penyebab, $id_diagnosa, $old_data->penyebab, $id_pegawai);
+    AskepPenghuni::update_implementasi_penghuni($id_diagnosa_penghuni, $implementasi, $old_data->implementasi, $id_pegawai);
 
     return redirect(route('askep.index'));
   }
@@ -201,14 +242,16 @@ class AsuhanKeperawatanController extends Controller
   {
     $id_diagnosa = $request->input('id_diagnosa');
 
-    $gejala = $this->AskepPenghuni->data_askep_gejala(null, $id_diagnosa);
-    $penyebab = $this->AskepPenghuni->data_askep_penyebab(null, $id_diagnosa);
-    $intervensi = $this->AskepPenghuni->data_askep_intervensi(null, $id_diagnosa);
+    $gejala = AskepPenghuni::data_askep_gejala(null, $id_diagnosa);
+    $penyebab = AskepPenghuni::data_askep_penyebab(null, $id_diagnosa);
+    $intervensi = AskepPenghuni::data_askep_intervensi(null, $id_diagnosa);
+    $implementasi = AskepPenghuni::data_askep_implementasi(null);
 
     $data = [
       'gejala' => $gejala,
       'penyebab' => $penyebab,
       'intervensi' => $intervensi,
+      'implementasi' => $implementasi,
     ];
 
 
@@ -216,11 +259,12 @@ class AsuhanKeperawatanController extends Controller
     echo json_encode($data);
   }
 
-  public function edit($id_diagnosa_penghuni)
+  public function edit($id_diagnosa_penghuni, $index = null)
   {
     $diagnosa = DB::table('askep_diagnosa_penghuni')
       ->where('id', $id_diagnosa_penghuni)
-      ->pluck('id_diagnosa');
+      ->select('id_diagnosa', 'id_penghuni')
+      ->first();
 
     $gejala = DB::table('askep_gejala_diagnosa_penghuni')
       ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
@@ -234,26 +278,35 @@ class AsuhanKeperawatanController extends Controller
       ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
       ->pluck('id_intervensi');
 
+    $implementasi = DB::table('askep_implementasi_diagnosa_penghuni')
+      ->where('id_diagnosa_penghuni', $id_diagnosa_penghuni)
+      ->pluck('id_implementasi');
+
     $data['json'] = json_encode([
+      'id_penghuni' => $diagnosa->id_penghuni,
       'gejala' => $gejala,
       'penyebab' => $penyebab,
       'intervensi' => $intervensi,
-      'id_diagnosa' => $diagnosa[0]
+      'implementasi' => $implementasi,
+      'id_diagnosa' => $diagnosa->id_diagnosa
     ]);
 
-    $data['diagnosa'] = $this->AskepPenghuni->data_diagnosa();
-    $data['penghuni'] = $this->Penghuni->get();
+    $data['pegawai'] = User::get_user();
+    $data['diagnosa'] = AskepPenghuni::data_diagnosa();
+    $data['penghuni'] = Penghuni::get();
     $data['id_diagnosa_penghuni'] = (int) $id_diagnosa_penghuni;
+    $data['prev'] = $index ? route('askep.index') : route('askep.detail', ['id_askep' => $id_diagnosa_penghuni]);
 
     return view('askep.edit', $data);
   }
 
   public function delete($id_diagnosa_penghuni)
   {
-    $this->AskepPenghuni->delete_diagnosa_penghuni($id_diagnosa_penghuni);
-    $this->AskepPenghuni->delete_penyebab_penghuni($id_diagnosa_penghuni);
-    $this->AskepPenghuni->delete_gejala_penghuni($id_diagnosa_penghuni);
-    $this->AskepPenghuni->delete_intervensi_penghuni($id_diagnosa_penghuni);
+    AskepPenghuni::delete_penyebab_penghuni($id_diagnosa_penghuni);
+    AskepPenghuni::delete_gejala_penghuni($id_diagnosa_penghuni);
+    AskepPenghuni::delete_intervensi_penghuni($id_diagnosa_penghuni);
+    AskepPenghuni::delete_implementasi_penghuni($id_diagnosa_penghuni);
+    AskepPenghuni::delete_diagnosa_penghuni($id_diagnosa_penghuni);
 
     return redirect(route('askep.index'));
   }

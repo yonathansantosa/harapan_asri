@@ -20,7 +20,7 @@
 {{-- START: Button Menu --}}
 <div class="fixed">
   <a href="#" @click="sidebarOpen = ! sidebarOpen"
-    class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-indigo-400 text-lg font-semibold text-white transition duration-200 hover:bg-indigo-600 hover:text-indigo-600" :class="sidebarOpen ? 'hidden' : 'flex'">
+     class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-indigo-400 text-lg font-semibold text-white transition duration-200 hover:bg-indigo-600 hover:text-indigo-600" :class="sidebarOpen ? 'hidden' : 'flex'">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list m-auto h-6 w-6 text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
       <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
     </svg>
@@ -33,20 +33,20 @@
 <?php $routes_name = explode('.', Route::currentRouteName()); ?>
 {{-- START: Side Navbar --}}
 <template x-if="sidebarOpen">
-  <div class="fixed z-50 flex h-screen w-full bg-white sm:w-auto"
-    x-transition:enter="transition origin-left duration-200"
-    x-transition:enter-start="opacity-0 transform"
-    x-transition:enter-end="opacity-100 transform"
-    x-transition:leave="transition origin-left duration-100"
-    x-transition:leave-start="opacity-100 transform"
-    x-transition:leave-end="opacity-0 transform"
-    @click.away="sidebarOpen = ! sidebarOpen">
+  <div class="fixed z-50 flex h-full w-full bg-white sm:w-auto"
+       x-transition:enter="transition origin-left duration-200"
+       x-transition:enter-start="opacity-0 transform"
+       x-transition:enter-end="opacity-100 transform"
+       x-transition:leave="transition origin-left duration-100"
+       x-transition:leave-start="opacity-100 transform"
+       x-transition:leave-end="opacity-0 transform"
+       @click.away="sidebarOpen = ! sidebarOpen">
     <div class="sticky-top-0 flex h-full w-full flex-shrink-0 flex-col justify-between overflow-y-auto py-6 px-4 transition duration-200 sm:w-auto" id="vertical-navbar">
       <div class="flex flex-col space-y-1">
         <div class="flex items-center justify-between">
           <h1 class="mt-2 text-center text-lg font-bold uppercase tracking-wide text-indigo-500">WISMA LANSIA<br>HARAPAN ASRI</h1>
           <a href="#" @click="sidebarOpen = ! sidebarOpen"
-            class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-red-400 text-lg font-semibold text-white transition duration-200 hover:bg-red-600 hover:text-indigo-600" :class="sidebarOpen ? 'flex' : 'hidden'">
+             class="mt-2 ml-2 mb-auto h-12 w-12 items-center space-x-4 rounded-md bg-red-400 text-lg font-semibold text-white transition duration-200 hover:bg-red-600 hover:text-indigo-600" :class="sidebarOpen ? 'flex' : 'hidden'">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list m-auto h-6 w-6 text-white" viewBox="0 0 16 16" :class="sidebarOpen ? 'hidden' : ''">
               <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
             </svg>
@@ -65,11 +65,11 @@
       {{-- LOGOUT --}}
       <div class="mt-auto flex flex-col space-y-4">
         <a href="{{ route('auth.logout') }}"
-          class="mt-1 flex items-center space-x-4 p-2 text-lg font-semibold text-red-400 transition duration-200 hover:text-red-600">
+           class="mt-1 flex items-center space-x-4 p-2 text-lg font-semibold text-red-400 transition duration-200 hover:text-red-600">
           <svg class="mr-4 h-6 w-6 text-red-400 transition duration-200 hover:text-red-600" fill="none"
-            stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+               stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
+                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
             </path>
           </svg>
           Keluar
