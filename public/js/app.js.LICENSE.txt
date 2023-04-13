@@ -70,6 +70,10 @@
  * ©2008-2021 SpryMedia Ltd - datatables.net/license
  */
 
+/*! DataTables integration for DataTables' FixedColumns
+ * ©2016 SpryMedia Ltd - datatables.net/license
+ */
+
 /*! DataTables styling integration
  * ©2018 SpryMedia Ltd - datatables.net/license
  */
@@ -86,6 +90,10 @@
  * ©2018 SpryMedia Ltd - datatables.net/license
  */
 
+/*! DataTables styling wrapper for RowGroup
+ * ©2018 SpryMedia Ltd - datatables.net/license
+ */
+
 /*! DataTables styling wrapper for Select
  * ©2018 SpryMedia Ltd - datatables.net/license
  */
@@ -96,12 +104,24 @@
  * License: MIT datatables.net/license/mit
  */
 
+/*! FixedColumns 4.1.0
+     * 2019-2022 SpryMedia Ltd - datatables.net/license
+     */
+
+/*! FixedColumns 4.1.0
+ * 2019-2022 SpryMedia Ltd - datatables.net/license
+ */
+
 /*! FixedHeader 3.2.3
  * ©2009-2022 SpryMedia Ltd - datatables.net/license
  */
 
 /*! Responsive 2.2.9
  * 2014-2021 SpryMedia Ltd - datatables.net/license
+ */
+
+/*! RowGroup 1.2.0
+ * ©2017-2022 SpryMedia Ltd - datatables.net/license
  */
 
 /*! SearchPanes 2.0.0-dev

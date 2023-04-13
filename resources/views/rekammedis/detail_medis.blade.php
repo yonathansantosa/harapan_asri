@@ -5,8 +5,8 @@
   @endphp
   {{-- @section('contents') --}}
   <div class="flex-auto flex-col bg-indigo-50 py-6 px-10"
-    x-cloak x-data="{ {{ $modal_name }}: false, keterangan: null, table: null, id: null, id_penghuni: null, href: null }"
-    :class="{ 'overflow-y-hidden': {{ $modal_name }} }">
+       x-cloak x-data="{ {{ $modal_name }}: false, keterangan: null, table: null, id: null, id_penghuni: null, href: null }"
+       :class="{ 'overflow-y-hidden': {{ $modal_name }} }">
     {{-- START: Modal Delete --}}
 
     <x-modal :modalName=$modal_name :modalHeader=$modal_header>
@@ -54,10 +54,10 @@
     {{-- END: data penghuni --}}
     @if (Session::has('message'))
       <div class="mb-4 rounded-md border border-green-200 bg-green-100 py-3 px-5 text-sm text-green-900 transition-opacity"
-        role="alert" id="message">
+           role="alert" id="message">
         <ul>
           <li>{!! Session::get('message') !!} <span class="float-right"><a
-                id="dismiss-message" href="#">x</a></span></li>
+                 id="dismiss-message" href="#">x</a></span></li>
         </ul>
       </div>
     @endif
@@ -88,7 +88,7 @@
                           </div>
                           <div class="flex place-content-end p-2">
                             <button
-                              @click="
+                                    @click="
                                     modalKonfirmasiDelete = true;
                                     keterangan = '{{ $row->waktu }} : {{ $row->namaobat }} - {{ $row->dosis }} dosis'
                                     href = '{{ route('rekmed.hapus') }}';
@@ -134,7 +134,7 @@
                           <div>{{ $row->hasil }}{!! $satuan[$key] !!}</div>
                           <div class="flex place-content-end p-2">
                             <button
-                              @click="
+                                    @click="
                                     modalKonfirmasiDelete = true;
                                     keterangan = '{{ $row->waktu }} : {{ $row->hasil }}{!! $satuan[$key] !!}'
                                     href = '{{ route('rekmed.hapus') }}';
@@ -202,7 +202,7 @@
               <div>{{ $row->diastole }}{{ $satuan[$key] }}</div>
               <div class="flex place-content-end p-2">
                 <button
-                  @click="
+                        @click="
                       modalKonfirmasiDelete = true;
                       keterangan = '{{ $row->waktu }}\{{ $row->id_pegawai }} : <br> {{ $row->sistole }}{{ $satuan[$key] }} - {{ $row->diastole }}{{ $satuan[$key] }}'
                       href = '{{ route('rekmed.hapus') }}';
@@ -251,8 +251,7 @@
                   <p class="text-2xl font-bold">{{ ucwords(str_replace('_', ' ', $k)) }}</p>
                   <div class="mb-8 max-h-72 overflow-y-auto">
                     <ul class="list-none">
-                      @foreach (collect($data)->whereNotNull($k)->all()
-    as $row)
+                      @foreach (collect($data)->whereNotNull($k)->all() as $row)
                         <li class="border-b py-2">
                           <div class="flex grid flex-row font-medium lg:grid lg:grid-cols-2">
                             <div class="grid grid-rows-2">
@@ -267,7 +266,7 @@
                               <div>{{ $row->{$k} }}{!! $satuan[$key] !!}</div>
                               <div class="flex place-content-end p-2">
                                 <button
-                                  @click="
+                                        @click="
                                     modalKonfirmasiDelete = true;
                                     keterangan = '{{ $row->waktu }} : {{ $row->{$k} }}{!! $satuan[$key] !!}'
                                     href = '{{ route('rekmed.hapus') }}';

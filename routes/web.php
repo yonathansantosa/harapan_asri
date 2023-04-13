@@ -87,13 +87,14 @@ Route::group(['prefix' => 'penghuni', 'as' => 'penghuni.', 'middleware' => ['rol
 Route::group(['prefix' => 'askep', 'as' => 'askep.', 'middleware' => ['role:admin,manajer,perawat']], function () {
   Route::get('/', [AsuhanKeperawatanController::class, 'penghuni'])->name('index');
   Route::post('/data', [AsuhanKeperawatanController::class, 'data_penghuni'])->name('data');
+  Route::get('/detail_askep/{id_diagnosa_penghuni}', [AsuhanKeperawatanController::class, 'detail_askep_penghuni'])->name('detail_askep');
   Route::get('/tambah', [AsuhanKeperawatanController::class, 'tambah_askep'])->name('tambah');
   Route::get('/delete/{id_diagnosa_penghuni}', [AsuhanKeperawatanController::class, 'delete'])->name('delete');
-  Route::get('/edit/{id_diagnosa_penghuni}', [AsuhanKeperawatanController::class, 'edit'])->name('edit');
+  Route::get('/edit/{id_diagnosa_penghuni}/{index?}', [AsuhanKeperawatanController::class, 'edit'])->name('edit');
   Route::post('/form-gejala', [AsuhanKeperawatanController::class, 'form_gejala'])->name('form_gejala');
   Route::post('/proses_edit', [AsuhanKeperawatanController::class, 'proses_edit_askep'])->name('proses_edit');
   Route::post('/proses_tambah', [AsuhanKeperawatanController::class, 'proses_tambah_askep'])->name('proses_tambah');
-  Route::get('/penghuni/{id}', [AsuhanKeperawatanController::class, 'askep_penghuni'])->name('penghuni');
+  Route::get('/detail/{id_askep}', [AsuhanKeperawatanController::class, 'detail_askep'])->name('detail');
   Route::post('/data_askep_penghuni', [AsuhanKeperawatanController::class, 'data_askep_penghuni'])->name('data_askep_penghuni');
 });
 
@@ -107,7 +108,8 @@ Route::group(['prefix' => 'rekmed', 'as' => 'rekmed.', 'middleware' => ['role:ad
   Route::post('detail_medis_table/{data}', [RekamMedisController::class, 'detail_medis_table'])->name('data_details_table');
   Route::get('detail_medis_chart/{id}/{data}/{from_date}/{until_date}', [RekamMedisController::class, 'detail_medis_chart'])->name('detail_medis_chart');
 
-  Route::get('hapus_mcu/{id}/{data}/{id_penghuni}', [UserController::class, 'hapus_mcu'])->name('hapus')->middleware('role:admin,perawat,assisten');
+  // Route::get('hapus_mcu/{id}/{data}/{id_penghuni}', [UserController::class, 'hapus_mcu'])->name('hapus')->middleware('role:admin,perawat,assisten');
+  Route::post('hapus_mcu', [RekamMedisController::class, 'hapus_mcu'])->name('hapus')->middleware('role:admin,perawat,assisten');
   Route::get('/tambah/{bagian}/{id}', [RekamMedisController::class, 'tambah_mcu'])->name('tambah')->middleware('role:admin,perawat,assisten');
   Route::post('simpan_mcu', [RekamMedisController::class, 'simpan_mcu'])->name('simpan')->middleware('role:admin,perawat,assisten');
 });
@@ -142,6 +144,8 @@ Route::group(['prefix' => 'farmasi', 'as' => 'farmasi.', 'middleware' => ['role:
   Route::post('/proses_edit_transaksi', [FarmasiController::class, 'proses_edit_transaksi'])->name('proses_edit_transaksi')->middleware('role:admin,farmasi');
   Route::get('/edit_obat/{id_obat}', [FarmasiController::class, 'edit_obat'])->name('edit_obat')->middleware('role:admin,farmasi');
   Route::get('/edit_transaksi/{id_history}', [FarmasiController::class, 'edit_transaksi'])->name('edit_transaksi')->middleware('role:admin,farmasi');
+  Route::get('/pindah_kepemilikan/{id_obat}', [FarmasiController::class, 'pindah_kepemilikan'])->name('pindah_kepemilikan')->middleware('role:admin,farmasi');
+  Route::post('/proses_pindah_kepemilikan', [FarmasiController::class, 'proses_pindah_kepemilikan'])->name('proses_pindah_kepemilikan')->middleware('role:admin,farmasi');
   Route::post('/transaksi_data', [FarmasiController::class, 'transaksi_data'])->name('transaksi_data');
 
   // Route::get('/', [MobilitasController::class, 'data_mobilitas_keluar'])->name('data_keluar');

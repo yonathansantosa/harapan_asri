@@ -6,16 +6,18 @@
         <!-- START: Heading -->
         <h2 class="text-black-400 w-full text-3xl font-semibold leading-tight">Daftar Asuhan Keperawatan</h2>
         <!-- START: Data Table -->
-        <a href="{{ route('askep.tambah') }}" class="mr-auto">
-          <button class="mt-5 flex items-center rounded-md bg-indigo-400 px-4 py-2 font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600">
-            <svg class="mr-2 justify-center" width="24" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6">
-              <path d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
+        <div class="flex">
+          <a href="{{ route('askep.tambah') }}" class="mr-auto">
+            <button class="mt-5 flex items-center rounded-md bg-indigo-400 px-4 py-2 font-semibold text-white shadow-md transition duration-200 hover:bg-indigo-600">
+              <svg class="mr-2 justify-center" width="24" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="inline-block h-6 w-6">
+                <path d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
               C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
               C15.952,9,16,9.447,16,10z" fill="currentColor" />
-            </svg>
-            Tambah Data Asuhan
-          </button>
-        </a>
+              </svg>
+              Tambah Data Asuhan
+            </button>
+          </a>
+        </div>
         <div class="mt-8 flex w-full flex-col">
           <div class="w-full">
             <div class="inline-block w-full max-w-full overflow-auto border-gray-200 align-middle">

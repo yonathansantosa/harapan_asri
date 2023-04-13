@@ -5,7 +5,7 @@
     <div class="flex-auto bg-indigo-50 py-6 px-10">
       <!-- START: List Obat -->
       <div class="block rounded-md bg-white p-8">
-        <h2 class="text-black-400 mb-3 text-3xl font-semibold leading-tight">Transaksi Obat</h2>
+        <h2 class="text-black-400 mb-3 text-3xl font-semibold leading-tight">Pindah Kepemilikan Obat 1 ke 2</h2>
         <!-- START: Data Table -->
         <div class="mt-8 flex flex-col">
           @if (Session::get('success'))
@@ -13,7 +13,7 @@
               {{ Session::get('success') }}
             </div>
           @endif
-          <form method="POST" action="{{ route('farmasi.proses_tambah_transaksi') }}" enctype="multipart/form-data">
+          <form method="POST" action="{{ route('farmasi.proses_pindah_kepemilikan') }}" enctype="multipart/form-data">
             @csrf
             {{-- Nama Obat --}}
             <x-label for="id_obat" :value="__('Nama Obat')" />
@@ -32,9 +32,17 @@
             <x-label for="keterangan" :value="__('Keterangan Transaksi')" />
             <x-input type="text" id="keterangan" name="keterangan" value="{{ old('keterangan') ? old('keterangan') : '' }}" placeholder=" Masukkan Keterangan Transaksi" autocomplete="off" />
 
-            {{-- Nama Penghuni --}}
-            <x-label for="id_penghuni" :value="__('Nama Penghuni')" />
-            <select id="id_penghuni" name="id_penghuni" class="block w-full rounded-md border border-gray-300 px-3 py-2 text-xl placeholder-gray-400 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100">
+            {{-- Nama Penghuni 1--}}
+            <x-label for="id_penghuni_1" :value="__('Nama Penghuni 1')" />
+            <select id="id_penghuni_1" name="id_penghuni_1" class="block w-full rounded-md border border-gray-300 px-3 py-2 text-xl placeholder-gray-400 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100">
+                <option value="">Tanpa Penghuni</option>
+              @foreach ($penghuni as $row)
+                <option value="{{ $row->id }}">{{ $row->no_induk }} -- {{ $row->nama }}</option>
+              @endforeach
+            </select>
+            {{-- Nama Penghuni 2--}}
+            <x-label for="id_penghuni_2" :value="__('Nama Penghuni 2')" />
+            <select id="id_penghuni_2" name="id_penghuni_2" class="block w-full rounded-md border border-gray-300 px-3 py-2 text-xl placeholder-gray-400 focus:border-indigo-300 focus:outline-none focus:ring focus:ring-indigo-100">
                 <option value="">Tanpa Penghuni</option>
               @foreach ($penghuni as $row)
                 <option value="{{ $row->id }}">{{ $row->no_induk }} -- {{ $row->nama }}</option>
