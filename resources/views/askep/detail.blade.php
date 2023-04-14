@@ -14,14 +14,15 @@
             <div class="ml-5 w-full leading-loose">
               <p class="mb-4 text-3xl font-semibold leading-tight">Detail Asuhan Keperawatan</p>
               <p class="text-2xl font-bold">{{ $penghuni->nama }}</p>
-              <p class="text-xl"><span class="font-bold">Diagnosa : </span>{{ $diagnosa[0] }}</p>
-              <p class="text-xl"><span class="font-bold">Waktu : </span>{{ $askep->created_at }}</p>
+              {{-- {{dd($diagnosa)}} --}}
+              <p class="text-xl"><span class="font-bold">Diagnosa : </span>{{ $data_diagnosa[0]->diagnosa }}</p>
+              <p class="text-xl"><span class="font-bold">Waktu : </span>{{ $diagnosa[0]->created_at }}</p>
               <p class="text-xl"><span class="font-bold">Pembuat : </span>Admin</p>
               <div class="text mt-4 flex justify-end">
                 <a href="{{ route('askep.index') }}" class="mr-5 rounded-md bg-indigo-200 p-3 hover:bg-indigo-600 hover:text-gray-50">
                   Kembali
                 </a>
-                <a href="{{ route('askep.edit', ['id_diagnosa_penghuni' => $askep->id]) }}" class="rounded-md bg-indigo-200 p-3 hover:bg-indigo-600 hover:text-gray-50">
+                <a href="{{ route('askep.edit', ['id_diagnosa_penghuni' => $diagnosa[0]->id]) }}" class="rounded-md bg-indigo-200 p-3 hover:bg-indigo-600 hover:text-gray-50">
                   Edit / Tambah Perkembangan
                 </a>
               </div>
@@ -31,6 +32,7 @@
       </div>
       {{-- END: data penghuni --}}
       <div class="mt-8 mb-16 block w-full rounded-md bg-white p-8">
+        {{-- {{dd($gejala)}} --}}
         <table class="mb-16 min-w-full text-xl" id="table-gejala">
           @if (!$gejala->isEmpty())
             {{-- START: data gejala --}}
@@ -39,11 +41,14 @@
               <td class="border-b border-gray-400"></td>
               <td class="border-b border-gray-400"></td>
             </tr>
+            {{-- {{ dd($pegawai) }} --}}
             @foreach ($gejala as $row)
+              {{-- {{ dd($row->id_pegawai) }} --}}
+              {{-- {{ dd($pegawai->where('id', $row->id_pegawai)) }} --}}
               <tr>
                 <td class="border-b border-gray-400">{{ $row->created_at }}</td>
-                <td class="border-b border-gray-400">{{ $row->nama }}</td>
-                <td class="border-b border-gray-400">{{ $row->gejala }}</td>
+                <td class="border-b border-gray-400">{{ $pegawai->where('id', $row->id_pegawai)->pluck('nama')[0] }}</td>
+                <td class="border-b border-gray-400">{{ $data_gejala[$row->id_gejala] }}</td>
               </tr>
             @endforeach
             {{-- END: data gejala --}}
@@ -58,8 +63,8 @@
             @foreach ($penyebab as $row)
               <tr>
                 <td class="border-b border-gray-400">{{ $row->created_at }}</td>
-                <td class="border-b border-gray-400">{{ $row->nama }}</td>
-                <td class="border-b border-gray-400">{{ $row->penyebab }}</td>
+                <td class="border-b border-gray-400">{{ $pegawai->where('id', $row->id_pegawai)->pluck('nama')[0] }}</td>
+                <td class="border-b border-gray-400">{{ $data_penyebab[$row->id_penyebab] }}</td>
               </tr>
             @endforeach
             {{-- END: data penyebab --}}
@@ -74,8 +79,8 @@
             @foreach ($intervensi as $row)
               <tr>
                 <td class="border-b border-gray-400">{{ $row->created_at }}</td>
-                <td class="border-b border-gray-400">{{ $row->nama }}</td>
-                <td class="border-b border-gray-400">{{ $row->intervensi }}</td>
+                <td class="border-b border-gray-400">{{ $pegawai->where('id', $row->id_pegawai)->pluck('nama')[0] }}</td>
+                <td class="border-b border-gray-400">{{ $data_intervensi[$row->id_intervensi] }}</td>
               </tr>
             @endforeach
             {{-- END: data intervensi --}}
@@ -90,8 +95,8 @@
             @foreach ($implementasi as $row)
               <tr>
                 <td class="border-b border-gray-400">{{ $row->created_at }}</td>
-                <td class="border-b border-gray-400">{{ $row->nama }}</td>
-                <td class="border-b border-gray-400">{{ $row->implementasi }}</td>
+                <td class="border-b border-gray-400">{{ $pegawai->where('id', $row->id_pegawai)->pluck('nama')[0] }}</td>
+                <td class="border-b border-gray-400">{{ $data_implementasi[$row->id_implementasi] }}</td>
               </tr>
             @endforeach
             {{-- END: data implementasi --}}

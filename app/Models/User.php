@@ -41,6 +41,15 @@ class User extends Model
     return $user;
   }
 
+  public static function get_users($ids)
+  {
+    $users = DB::table('users')
+      ->whereIn('id', $ids)
+      ->get();
+
+    return $users;
+  }
+
   public static function login($username)
   {
     $login = DB::table('users')

@@ -75,6 +75,7 @@
           <x-label for="select-pegawai" :value="__('Penambah/Pengubah Data')" :invalid="$errors->has('pegawai')" required />
           <x-select-2 id="select-pegawai" name="pegawai" placeholder="Pilih Pegawai" :invalid="$errors->has('pegawai')">
             @foreach ($pegawai as $row)
+              {{-- {{ dd($row->id) }} --}}
               <option value="{{ $row->id }}" {{ old('pegawai') == $row->id ? 'selected' : '' }}>{{ $row->nama }}</option>
             @endforeach
           </x-select-2>
@@ -102,7 +103,7 @@
             </a>
           </div>
 
-          
+
 
           <!-- Button Input -->
           <p class="mt-4 mb-6 flex flex-col items-center justify-center space-y-6 text-center text-lg text-gray-500 sm:flex-row">
@@ -172,7 +173,7 @@
 
       $.ajax({
         async: false,
-        "url": "{{ route('askep.form_gejala') }}",
+        "url": "{{ route('askep.form_askep') }}",
         "type": "POST",
         "data": {
           _token: "{{ csrf_token() }}",

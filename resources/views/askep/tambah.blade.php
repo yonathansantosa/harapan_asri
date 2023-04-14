@@ -151,10 +151,10 @@
 
       $("#select-diagnosa").change(function() {
         id_diagnosa = $(this).val();
-
+        console.log(id_diagnosa);
         $.ajax({
           async: false,
-          "url": "{{ route('askep.form_gejala') }}",
+          "url": "{{ route('askep.form_askep') }}",
           "type": "POST",
           "data": {
             _token: "{{ csrf_token() }}",

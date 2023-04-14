@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class AsuhanKeperawatanController extends Controller
 {
-  public function __construct()
-  {
-    $this->User = new User();
-    $this->Penghuni = new Penghuni();
-    $this->AskepPenghuni = new AskepPenghuni();
-  }
+  // public function __construct()
+  // {
+  //   $this->User = new User();
+  //   $this->Penghuni = new Penghuni();
+  //   $this->AskepPenghuni = new AskepPenghuni();
+  // }
 
   public function penghuni()
   {
@@ -120,18 +120,28 @@ class AsuhanKeperawatanController extends Controller
 
   public function detail_askep_penghuni($id_diagnosa_penghuni)
   {
-    $data['diagnosa'] = $this->AskepPenghuni->data_askep_diagnosa($id_diagnosa_penghuni);
+    $data['diagnosa'] = AskepPenghuni::data_askep_diagnosa($id_diagnosa_penghuni);
 
-    $data['gejala'] = $this->AskepPenghuni->data_askep_gejala_penghuni($id_diagnosa_penghuni);
-    $data['penyebab'] = $this->AskepPenghuni->data_askep_penyebab_penghuni($id_diagnosa_penghuni);
-    $data['intervensi'] = $this->AskepPenghuni->data_askep_intervensi_penghuni($id_diagnosa_penghuni);
+    $data['gejala'] = AskepPenghuni::data_askep_gejala_penghuni($id_diagnosa_penghuni);
+    $data['penyebab'] = AskepPenghuni::data_askep_penyebab_penghuni($id_diagnosa_penghuni);
+    $data['intervensi'] = AskepPenghuni::data_askep_intervensi_penghuni($id_diagnosa_penghuni);
+    $data['implementasi'] = AskepPenghuni::data_askep_implementasi_penghuni($id_diagnosa_penghuni);
 
-    $data['data_diagnosa'] = $this->AskepPenghuni->data_diagnosa([$data['diagnosa'][0]->id_diagnosa]);
-    $data['data_gejala'] = $this->AskepPenghuni->data_askep_gejala(collect($data['gejala'])->pluck('id_gejala'));
-    $data['data_penyebab'] = $this->AskepPenghuni->data_askep_penyebab(collect($data['penyebab'])->pluck('id_penyebab'));
-    $data['data_intervensi'] = $this->AskepPenghuni->data_askep_intervensi(collect($data['intervensi'])->pluck('id_intervensi'));
+    $data['data_diagnosa'] = AskepPenghuni::data_diagnosa([$data['diagnosa'][0]->id_diagnosa]);
+    $data['data_gejala'] = AskepPenghuni::data_askep_gejala(collect($data['gejala'])->pluck('id_gejala'));
+    $data['data_penyebab'] = AskepPenghuni::data_askep_penyebab(collect($data['penyebab'])->pluck('id_penyebab'));
+    $data['data_intervensi'] = AskepPenghuni::data_askep_intervensi(collect($data['intervensi'])->pluck('id_intervensi'));
+    $data['data_implementasi'] = AskepPenghuni::data_askep_implementasi(collect($data['implementasi'])->pluck('id_implementasi'));
 
-    $data['penghuni'] = $this->Penghuni->detail_penghuni($data['diagnosa'][0]->id_penghuni);
+    // dd($data['gejala']->pluck('id_pegawai'));
+
+    $id_pegawais = $data['gejala']->pluck('id_pegawai');
+    $id_pegawais = $id_pegawais->concat($data['penyebab']->pluck('id_pegawai'));
+    $id_pegawais = $id_pegawais->concat($data['intervensi']->pluck('id_pegawai'));
+    // dd($id_pegawais->toArray());
+    $data['pegawai'] = User::get_users($id_pegawais->toArray());
+
+    $data['penghuni'] = Penghuni::detail_penghuni($data['diagnosa'][0]->id_penghuni);
 
     $data['id_diagnosa_penghuni'] = $id_diagnosa_penghuni;
 
@@ -140,12 +150,12 @@ class AsuhanKeperawatanController extends Controller
 
   public function tambah_askep()
   {
-    $data['diagnosa'] = $this->AskepPenghuni->data_diagnosa();
-    $data['gejala'] = $this->AskepPenghuni->data_askep_gejala();
-    $data['intervensi'] = $this->AskepPenghuni->data_askep_intervensi();
-    $data['penyebab'] = $this->AskepPenghuni->data_askep_penyebab();
-    $data['penghuni'] = $this->Penghuni->get();
-    $data['user'] = $this->User->get_user();
+    $data['diagnosa'] = AskepPenghuni::data_diagnosa();
+    $data['gejala'] = AskepPenghuni::data_askep_gejala();
+    $data['intervensi'] = AskepPenghuni::data_askep_intervensi();
+    $data['penyebab'] = AskepPenghuni::data_askep_penyebab();
+    $data['penghuni'] = Penghuni::get();
+    $data['pegawai'] = User::get_user();
 
     return view('askep.tambah', $data);
   }
@@ -183,7 +193,7 @@ class AsuhanKeperawatanController extends Controller
     $id_diagnosa_penghuni = AskepPenghuni::insert_diagnosa_penghuni($id_penghuni, $id_diagnosa, $id_pegawai, $id_pj_1, $id_pj_2, $id_pj_3);
 
     if (!empty($implementasi)) {
-      AskepPenghuni::insert_implementasi_penghuni($id_diagnosa_penghuni, $implementasi, $id_pegawai);
+      AskepPenghuni::insert_implementasi_penghuni($id_diagnosa_penghuni, $implementasi, $id_diagnosa, $id_pegawai);
     }
     if (!empty($gejala)) {
       AskepPenghuni::insert_gejala_penghuni($id_diagnosa_penghuni, $gejala, $id_diagnosa, $id_pegawai);
@@ -215,7 +225,7 @@ class AsuhanKeperawatanController extends Controller
     $implementasi = [];
     $implementasi_key = [];
 
-    // dd($penyebab);
+    // dd($id_pegawai);
     foreach ($request->except(['_token', 'id_diagnosa_penghuni', 'pegawai', 'old_data', 'id_pj_1', 'id_pj_2', 'id_pj_3', 'gejala', 'penyebab', 'intervensi']) as $id => $value) {
       if ($value) {
         $implementasi[$id] = $value;

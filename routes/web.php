@@ -91,7 +91,7 @@ Route::group(['prefix' => 'askep', 'as' => 'askep.', 'middleware' => ['role:admi
   Route::get('/tambah', [AsuhanKeperawatanController::class, 'tambah_askep'])->name('tambah');
   Route::get('/delete/{id_diagnosa_penghuni}', [AsuhanKeperawatanController::class, 'delete'])->name('delete');
   Route::get('/edit/{id_diagnosa_penghuni}/{index?}', [AsuhanKeperawatanController::class, 'edit'])->name('edit');
-  Route::post('/form-gejala', [AsuhanKeperawatanController::class, 'form_gejala'])->name('form_gejala');
+  Route::post('/form_askep', [AsuhanKeperawatanController::class, 'form_askep'])->name('form_askep');
   Route::post('/proses_edit', [AsuhanKeperawatanController::class, 'proses_edit_askep'])->name('proses_edit');
   Route::post('/proses_tambah', [AsuhanKeperawatanController::class, 'proses_tambah_askep'])->name('proses_tambah');
   Route::get('/detail/{id_askep}', [AsuhanKeperawatanController::class, 'detail_askep'])->name('detail');
