@@ -22,6 +22,7 @@ class AskepPenghuni extends Model
         ->leftJoin('askep_gejala_diagnosa_penghuni', 'askep_gejala_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
         ->leftJoin('askep_intervensi_diagnosa_penghuni', 'askep_intervensi_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
         ->leftJoin('askep_penyebab_diagnosa_penghuni', 'askep_penyebab_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
+        ->leftJoin('askep_implementasi_diagnosa_penghuni', 'askep_implementasi_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
         ->join('penghuni', 'penghuni.id', '=', 'askep_diagnosa_penghuni.id_penghuni')
         ->orderBy($order, $dir)
         ->offset($start)
@@ -34,6 +35,7 @@ class AskepPenghuni extends Model
           DB::raw('group_concat(distinct(askep_gejala_diagnosa_penghuni.id_gejala)) as id_gejalas'),
           DB::raw('group_concat(distinct(askep_penyebab_diagnosa_penghuni.id_penyebab)) as id_penyebabs'),
           DB::raw('group_concat(distinct(askep_intervensi_diagnosa_penghuni.id_intervensi)) as id_intervensis'),
+          DB::raw('group_concat(distinct(askep_implementasi_diagnosa_penghuni.id_implementasi)) as id_implementasis'),
           'penghuni.nama',
           'askep_diagnosa.diagnosa'
         )
@@ -64,6 +66,12 @@ class AskepPenghuni extends Model
         ->select('askep_penyebab_diagnosa_penghuni.id_diagnosa_penghuni')
         ->where('penyebab', 'like', '%' . $query . '%')
         ->value('id_diagnosa_penghuni');
+      
+      $implementasi = DB::table('askep_implementasi_diagnosa')
+        ->join('askep_implementasi_diagnosa_penghuni', 'askep_implementasi_diagnosa_penghuni.id_implementasi', '=', 'askep_implementasi_diagnosa.id')
+        ->select('askep_implementasi_diagnosa_penghuni.id_diagnosa_penghuni')
+        ->where('implementasi', 'like', '%' . $query . '%')
+        ->value('id_diagnosa_penghuni');
 
       $id_penghuni = collect([$gejala, $intervensi, $penyebab])->whereNotNull()->unique()->all();
 
@@ -72,6 +80,7 @@ class AskepPenghuni extends Model
         ->join('askep_gejala_diagnosa_penghuni', 'askep_gejala_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
         ->join('askep_intervensi_diagnosa_penghuni', 'askep_intervensi_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
         ->join('askep_penyebab_diagnosa_penghuni', 'askep_penyebab_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
+        ->join('askep_implementasi_diagnosa_penghuni', 'askep_implementasi_diagnosa_penghuni.id_diagnosa_penghuni', '=', 'askep_diagnosa_penghuni.id')
         ->join('penghuni', 'penghuni.id', '=', 'askep_diagnosa_penghuni.id_penghuni')
         ->where('penghuni.nama', 'like', '%' . $query . '%')
         ->orWhere('askep_diagnosa_penghuni.created_at', 'like', '%' . $query . '%')
@@ -91,6 +100,7 @@ class AskepPenghuni extends Model
           DB::raw('group_concat(distinct(askep_gejala_diagnosa_penghuni.id_gejala)) as id_gejalas'),
           DB::raw('group_concat(distinct(askep_penyebab_diagnosa_penghuni.id_penyebab)) as id_penyebabs'),
           DB::raw('group_concat(distinct(askep_intervensi_diagnosa_penghuni.id_intervensi)) as id_intervensis'),
+          DB::raw('group_concat(distinct(askep_implementasi_diagnosa_penghuni.id_implementasi)) as id_implementasis'),
           'penghuni.nama',
           'askep_diagnosa.diagnosa'
         )

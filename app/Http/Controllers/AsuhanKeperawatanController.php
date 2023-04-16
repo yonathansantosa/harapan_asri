@@ -33,7 +33,8 @@ class AsuhanKeperawatanController extends Controller
       4 => 'gejala',
       5 => 'penyebab',
       6 => 'intervensi',
-      7 => 'action',
+      7 => 'implementasi',
+      8 => 'action',
     );
 
     $limit = $request->input('length');
@@ -63,8 +64,10 @@ class AsuhanKeperawatanController extends Controller
       $row['penghuni'] = $p->nama;
       $gejala = $p->id_gejalas != null ? AskepPenghuni::data_askep_gejala(explode(',', $p->id_gejalas)) : [];
       $intervensi = $p->id_intervensis != null ? AskepPenghuni::data_askep_intervensi(explode(',', $p->id_intervensis)) : [];
+      $implementasi = $p->id_implementasis != null ? AskepPenghuni::data_askep_implementasi(explode(',', $p->id_implementasis)) : [];
       $penyebab = $p->id_penyebabs != null ? AskepPenghuni::data_askep_penyebab(explode(',', $p->id_penyebabs)) : [];
-      $row['timestamp'] = $p->created_at;
+      $timestamp = explode(" ", $p->created_at);
+      $row['timestamp'] = $timestamp[0] . "<br />" . $timestamp[1];
 
       $row['gejala'] = '<ul class="ml-5 list-outside list-disc">';
       if (!empty($gejala)) {
@@ -89,6 +92,14 @@ class AsuhanKeperawatanController extends Controller
         }
       }
       $row['intervensi'] .= '</ul>';
+      
+      $row['implementasi'] = '<ul class="ml-5 list-outside list-disc">';
+      if (!empty($implementasi)) {
+        foreach ($implementasi as $key => $value) {
+          $row['implementasi'] .= "<li class='break-words'>" . $value . "</li>";
+        }
+      }
+      $row['implementasi'] .= '</ul>';
 
       $row['diagnosa'] = $p->diagnosa;
 

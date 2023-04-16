@@ -31,6 +31,7 @@
                     <th class="py-3 px-6 text-left font-semibold">Gejala</th>
                     <th class="py-3 px-6 text-left font-semibold">Penyebab</th>
                     <th class="py-3 px-6 text-left font-semibold">Intervensi</th>
+                    <th class="py-3 px-6 text-left font-semibold">Implementasi</th>
                     <th class="py-3 px-6 text-left font-semibold">Action</th>
                   </tr>
                 </thead>
@@ -117,6 +118,9 @@
           },
           {
             'data': 'intervensi'
+          },
+          {
+            'data': 'implementasi'
           },
           {
             'data': 'action'
