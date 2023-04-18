@@ -73,8 +73,9 @@ class FarmasiController extends Controller
     $columns = array(
       0 => 'id',
       1 => 'namaobat',
-      2 => 'stok',
-      3 => 'action',
+      3 => 'penghuni',
+      4 => 'stok',
+      5 => 'action',
     );
 
     $totalData = Obat::where('deleted', 0)->count() - 1;
@@ -101,6 +102,11 @@ class FarmasiController extends Controller
       // $penghuni = Penghuni::detail_penghuni($p->id_penghuni);
       $row['id'] = $start + $key + 1;
       $row['nama_kode_obat'] = "$p->namaobat<br><span class='italic'>$p->kode_slug</span>";
+      if ($p->nama == null) {
+        $row['penghuni'] = "Umum";
+      } else {
+        $row['penghuni'] = $p->nama;
+      }
       if ($p->stok == null) {
         $row['stock'] = 0;
       } else {

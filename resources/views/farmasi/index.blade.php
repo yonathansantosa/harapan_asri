@@ -75,6 +75,9 @@
         },
         dom: '<"flex"B><"flex items-center gap-4"l<"ml-auto"f>>tp',
         responsive: true,
+        rowGroup: {
+          dataSrc: 'nama_kode_obat',
+        },
         buttons: [{
           extend: 'print',
           orientation: 'landscape',
@@ -97,6 +100,10 @@
         columnDefs: [{
           orderable: false,
           targets: [0, 3]
+        }],
+        columnDefs: [{
+          visible: false,
+          targets: [1]
         }],
         "columns": [{
             'data': 'id'
